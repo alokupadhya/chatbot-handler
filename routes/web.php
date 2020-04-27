@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+// Route::get('/', function () {
+//     return view('main/home');
+// });
+
+Route::domain('schoolchatbot.com')->group(function () {
+    Route::get('/', function () {
+        return view('web/home');
+    });
+});
+
+
+Route::domain('handler.schoolchatbot.com')->group(function () {
+    Route::get('/', function () {
+        return view('handler/home');
+    });
 });
