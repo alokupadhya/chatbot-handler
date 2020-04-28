@@ -1,0 +1,168 @@
+.nav{
+    background: linear-gradient(45deg, #3f51b5 30%, #5360ff 90%);
+    padding: 1.5% 5%;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    color: white;
+    display: grid;
+    grid-template-areas: 'brand brand menu menu menu';
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+
+.nav .nav-brand{
+    grid-area: brand;
+}
+
+.nav .nav-brand h3{
+    margin-bottom: 0px !important;
+}
+
+.nav .nav-menu{
+    grid-area: menu;
+    text-align: right;
+}
+
+.nav-links-res{
+    display: none;
+    width: 300px;
+    right: -300px;
+    transition: right 1s ease 0s;
+}
+
+.nav .nav-menu .nav-links{
+    margin: 0;
+}
+
+.nav .nav-menu .nav-ham{
+    display: none;
+}
+
+.nav .nav-menu .nav-links .link{
+    list-style: none;
+    display: inline;
+    margin-left: 50px;
+}
+
+
+.nav .nav-menu .nav-links .link a{
+    color: white;
+    text-decoration: none;
+    transition: color 0.4s;
+    outline: none;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.nav .nav-menu .nav-links .link a:hover{
+    color: rgb(204, 204, 204);
+}
+
+/*Footer style*/
+.footer{
+    display: grid;
+    grid-template-areas: 'f-services f-services f-company f-social f-form f-form'
+    'f-sub-left f-sub-left f-sub-left f-sub-right f-sub-right f-sub-right';
+    background-color: #dbdbdb;
+    font-family: 'Roboto Condensed', sans-serif;
+    padding: 1.5% 5%;
+    grid-column-gap: 40px;
+    border-top: 3px solid rgba(37, 82, 45, 0.18);
+}
+
+.footer .footer-services{
+    grid-area: f-services;
+}
+
+.footer .footer-company{
+    grid-area: f-company;
+}
+
+.footer .footer-social{
+    grid-area: f-social;
+}
+
+.footer .footer-form{
+    grid-area: f-form;
+}
+
+.footer .footer-form p{
+    text-align: justify;
+}
+
+.footer .footer-sub-left{
+    grid-area: f-sub-left;
+    color: dimgray;
+}
+
+.footer .footer-sub-right{
+    grid-area: f-sub-right;
+}
+
+.footer ul{
+    padding-left: 0px;
+}
+
+.footer ul li{
+    list-style: none;
+    margin-bottom: 15px;
+    color: rgb(36, 36, 36);
+}
+
+/* 
+##Device = Low Resolution Tablets, Mobiles
+##Screen = B/w below 767px
+*/
+@media (max-width: 767px) {
+    .nav{
+        grid-template-areas: 'brand brand menu menu';
+        padding: 5% 5%;
+    }
+
+    .nav .nav-menu .nav-links{
+        display: none;
+    }
+
+    .nav .nav-menu .nav-ham{
+        display: block;
+    }
+
+    .nav-links-res{
+        top: 0;
+        height: 100%;
+        position: fixed;
+        background-color: black;
+        margin: 0;
+        padding: 70px 30px;
+    }
+
+    .nav-links-res{
+        display: block;
+        top: 0;
+        height: 100%;
+        position: fixed;
+        background-color: black;
+        margin: 0;
+        padding: 40px 30px;
+    }
+
+    .nav-links-res i {
+        margin:0px 25px;
+        color: blanchedalmond;
+    }
+
+    .nav-links-res .link{
+        list-style: none;
+        color: white;
+        margin: 30px 25px;
+    }
+
+    .footer{
+        grid-template-areas: 'f-services f-company'
+        'f-social f-social'
+        'f-form f-form'
+        'f-sub-left f-sub-left';
+    }
+}
