@@ -11,7 +11,6 @@ class Navbar extends Component {
     }
 
     onClickSlide(){
-        this.setState({sidebarOpen:!this.state.sidebarOpen});
         if(this.state.sidebarOpen){
             document.getElementById("nav-res").style.right = '-300px';
             console.log("close");
@@ -21,6 +20,7 @@ class Navbar extends Component {
             console.log("open");
             document.getElementById("nav-res").style.right = '0px';
         }
+        this.setState({sidebarOpen:!this.state.sidebarOpen});
     }
 
     render() {
