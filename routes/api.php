@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace('API\Chatbox')->group(function () {
+    Route::prefix('vu')->group(function () {
+        Route::post('store', 'VisitedUsersController@store')->name('add_new_visited_user');
+    });
+});
