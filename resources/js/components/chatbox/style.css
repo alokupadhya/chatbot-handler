@@ -79,3 +79,19 @@
     left:50%;
     transform: translate(-50%,-50%);
 }
+
+/* 
+##Device = Low Resolution Tablets, Mobiles
+##Screen = B/w below 767px
+*/
+@media (max-width: 767px) {
+    .chatbox-button{
+        position: fixed;
+        z-index: 99;
+        bottom: 20px;
+        right: 20px;
+    }
+    .chatbox{
+        right: 15px;
+    }
+}

@@ -22,15 +22,15 @@ class Home extends Component {
                     </p>
                     <div className="container">
                         <div className="row">
-                            <div className="col-4">
+                            <div className="col-md col-sm-12">
                                 <img src={'/img/about-1.jpg'}/>
                                 <h3>Our university</h3>
                             </div>
-                            <div className="col-4">
+                            <div className="col-md col-sm-12">
                                 <img src={'/img/about-2.jpg'}/>
                                 <h3>Our campuses</h3>
                             </div>
-                            <div className="col-4">
+                            <div className="col-md col-sm-12">
                                 <img src={'/img/about-3.jpg'}/>
                                 <h3>Our history</h3>
                             </div>
