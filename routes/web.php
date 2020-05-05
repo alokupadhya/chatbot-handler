@@ -17,14 +17,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('main/home');
 // });
 
-Route::domain('schoolchatbot.com')->group(function () {
+Route::domain('schoolchatbot.local')->group(function () {
     Route::get('/', function () {
         return view('web/home');
     });
 });
 
 
-Route::domain('handler.schoolchatbot.com')->group(function () {
+Route::domain('handler.schoolchatbot.local')->group(function () {
     Route::get('/', function () {
         return view('handler/home');
     });
