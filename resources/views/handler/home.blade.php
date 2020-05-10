@@ -3,5 +3,5 @@
 @section('title', 'Chatbot Handler - Home')
 
 @section('content')
-    Chatbot Handler
+    Chatbot Handler 2
 @endsection

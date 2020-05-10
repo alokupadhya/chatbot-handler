@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Nav from './components/website/Navbar';
-import HomeView from './view/Home';
-import Footer from './components/website/Footer';
-import ChatBox from './components/chatbox/Main';
+import Nav from './main/components/website/Navbar';
+import HomeView from './main/view/Home';
+import Footer from './main/components/website/Footer';
+import ChatBox from './main/components/chatbox/Main';
 
 export default class Application extends Component {
     render() {
