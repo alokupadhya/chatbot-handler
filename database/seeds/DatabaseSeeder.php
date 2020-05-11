@@ -18,5 +18,12 @@ class DatabaseSeeder extends Seeder
         DB::table('user_roles')->insert([
             'type' => "agent",
         ]);
+        DB::table('users')->insert([
+            'first_name' => Str::random(5),
+            'last_name' => Str::random(5),
+            'email' => 'test@gmail.com',
+            'role_id' => 1,
+            'password' => Hash::make('password'),
+        ]);
     }
 }
