@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role(){
+        return $this->hasOne(UserRoles::class,'id','role_id');
+    }
+
+    public function isAdmin(){
+        return ($this->role && $this->role->type=='admin')?true:false;
+    }
+
+    public function isAgent(){
+        return ($this->role && $this->role->type=='agent')?true:false;
+    }
 }

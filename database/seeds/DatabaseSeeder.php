@@ -12,5 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserSeeder::class);
+        DB::table('user_roles')->insert([
+            'type' => "admin",
+        ]);
+        DB::table('user_roles')->insert([
+            'type' => "agent",
+        ]);
     }
 }
