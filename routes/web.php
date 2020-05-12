@@ -25,7 +25,7 @@ Route::domain('schoolchatbot.local')->group(function () {
 
 
 Route::domain('handler.schoolchatbot.local')->group(function () {
-    Route::get('/', function () {
+    Route::get('{all?}', function () {
         return view('handler/home');
-    });
+    })->where('all', '([A-z\d-\/_.]+)?');
 });

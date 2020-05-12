@@ -1,0 +1,94 @@
+.login-form h3{
+    color: #292626;
+    margin: 0 0px 5px;
+    padding: 0;
+    font-weight: 100;
+    font-size: 24px;
+}
+
+
+.form{
+    text-align: left;
+    color: #444444;
+    font-size: 14px;
+}
+
+.form .form-box{
+    margin-bottom: 15px;
+}
+
+.form .form-box label{
+    display: block;
+}
+
+.form .form-box input, .form .form-box select{
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 4% 5%;
+    background: none;
+    border: 2px solid #dddddd;
+    margin-top: 5px;
+    border-radius: 5px;
+    position: relative;
+    outline: none;
+}
+
+.form .form-box input.disable{
+    background-color: rgb(214, 214, 214) !important;
+}
+
+.form .form-box input:focus,.form .form-box select:focus{
+    border: 2px solid #3f51b5;
+}
+
+.forgot-password{
+    font-size: 14px;
+}
+
+.forgot-password a{
+    text-decoration: none;
+    color: darkslategrey;
+    cursor: pointer;
+}
+
+.popup-content {
+    border:none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+.popup-container{
+    position: relative;
+    padding: 5% 8%;
+}
+
+.close-on-popup{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.btn{
+    background: #3f51b5;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    outline: none;
+    position: relative;
+}
+
+.btn:active{
+    background-color: #3f51b5 !important;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;
+}
+
+.btn:hover{
+    background:#5360ff;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+}
