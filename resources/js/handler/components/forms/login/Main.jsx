@@ -47,23 +47,23 @@ class Main extends Component {
     async onSubmitHandler(event){
         event.preventDefault();
         let {_token,form}= this.state;
-        // await axios({
-        //     url:"/api/login",
-        //     method:"POST",
-        //     data:form
-        // }).then((r)=>{
-        //     if(r.status == 200){
-        //         _token=r.data.token;
-        //         localStorage.setItem('_token',_token);
-        //         window.location.assign('/dashboard');
-        //     }
-        // }).catch((r)=>{
-        //     alert.error('Unauthorized Access!')
-        // });
+        await axios({
+            url:"/api/login",
+            method:"POST",
+            data:form
+        }).then((r)=>{
+            if(r.status == 200){
+                _token=r.data.token;
+                localStorage.setItem('_token',_token);
+                window.location.assign('/dashboard');
+            }
+        }).catch((r)=>{
+            alert('Unauthorized Access!')
+        });
        
-        // this.setState({
-        //     _token:_token,
-        // });
+        this.setState({
+            _token:_token,
+        });
     }
 
     validationHandler(input,value){

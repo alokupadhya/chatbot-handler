@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import Login from './handler/views/login/Main';
+import Dashboard from './handler/views/dashboard/Main';
+
 import Footer from './handler/components/footer/Main';
 
 export default class Handler extends Component {
@@ -17,6 +19,7 @@ export default class Handler extends Component {
                 <Router>
                     <Switch>
                         <Route path="/" exact component={Login}/>
+                        <Route path="/dashboard" exact component={Dashboard}/>
                     </Switch>
                 </Router>
                 <Footer/>
