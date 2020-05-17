@@ -1,4 +1,5 @@
 import React, {Component,Fragment} from 'react';
+import { withAlert } from 'react-alert'
 import LoginForm from '../../components/forms/login/Main';
 import './style.css';
 
@@ -6,14 +7,19 @@ class Main extends Component {
     constructor(props) {
         super(props);
     }
-
+    componentDidMount(){
+        let _token = localStorage.getItem('_token');
+        if(_token != "" && _token != null){
+            window.location.assign('/dashboard');
+        }
+    }
     render() {
         return (
             <Fragment>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-md-5 bg-light mt-5 rounded py-4 col-lg-4 text-center mx-auto">
-                            <LoginForm/>
+                            <LoginForm alert={this.props.alert}/>
                         </div>
                     </div>
                 </div>
@@ -22,4 +28,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default withAlert()(Main);

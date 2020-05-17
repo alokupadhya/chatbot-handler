@@ -18,7 +18,7 @@ class LoginController extends Controller
 	{
 		try 
 		{
-			$user = User::where('email', $request->email)->first();
+			$user = User::where('email', $request->email)->where('role_id', $request->role_id)->first();
 		    if ($user) 
 		    {
 		        if (\Hash::check($request->password, $user->password)) 
@@ -66,6 +66,4 @@ class LoginController extends Controller
 			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
 		}
 	}
-
-    
 }

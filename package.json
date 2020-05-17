@@ -25,6 +25,9 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "react-alert": "^7.0.1",
+        "react-alert-template-basic": "^1.0.0",
+        "react-preloaders": "^3.0.3",
         "react-router-dom": "^5.1.2",
         "reactjs-popup": "^1.5.0"
     }

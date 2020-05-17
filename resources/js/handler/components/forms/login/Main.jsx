@@ -8,6 +8,7 @@ class Main extends Component {
 		this.state = { 
             forgot: false,
             form:{
+                role_id:"1",
                 email:"",
                 password:"",
             },
@@ -46,24 +47,30 @@ class Main extends Component {
 
     async onSubmitHandler(event){
         event.preventDefault();
-        let {_token,form}= this.state;
-        await axios({
-            url:"/api/login",
-            method:"POST",
-            data:form
-        }).then((r)=>{
-            if(r.status == 200){
-                _token=r.data.token;
-                localStorage.setItem('_token',_token);
-                window.location.assign('/dashboard');
-            }
-        }).catch((r)=>{
-            alert('Unauthorized Access!')
-        });
-       
-        this.setState({
-            _token:_token,
-        });
+        let {_token,form,validation}= this.state;
+        let alert = this.props.alert;
+        if(validation.status){
+            await axios({
+                url:"/api/login",
+                method:"POST",
+                data:form
+            }).then((r)=>{
+                if(r.status == 200){
+                    _token=r.data.token;
+                    localStorage.setItem('_token',_token);
+                    window.location.assign('/dashboard');
+                }
+            }).catch((r)=>{
+                alert.error('Unauthorized Access!');
+            });
+           
+            this.setState({
+                _token:_token,
+            });
+        }
+        else{
+            alert.info('Please complete login form!');
+        }
     }
 
     validationHandler(input,value){
@@ -116,9 +123,9 @@ class Main extends Component {
                     <form className="form" onSubmit={this.onSubmitHandler}>
                         <div className="form-box">
                             <label><small>User Type</small></label>
-                            <select>
-                                <option value="">Adminstration</option>
-                                <option value="">Agent</option>
+                            <select name="role_id" onChange={this.onChangeHandler}>
+                                <option value="1">Adminstration</option>
+                                <option value="2">Agent</option>
                             </select>
                         </div>
                         <div className="form-box">
