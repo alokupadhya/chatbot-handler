@@ -43,8 +43,6 @@ class AddAgent extends Component {
         let {form} = this.state;
         form[event.target.name] = event.target.value;
         this.setState({form:form},this.validationHandler(event.target.name,event.target.value));
-        console.log(event.target.name);
-        
     }
 
     validationHandler(input,value){
@@ -103,9 +101,7 @@ class AddAgent extends Component {
         event.preventDefault();
         let {form,validation}= this.state;
         let _token = localStorage.getItem('_token');
-        console.log(_token);
-        
-        // let alert = this.props.alert;
+        let alert = this.props.alert;
         if(validation.status){
             await axios({
                 url:"/api/admin/create-agent",
@@ -117,17 +113,41 @@ class AddAgent extends Component {
                 },
                 data:form
             }).then((r)=>{
-                console.log(r);
-            }).catch((r)=>{
-                console.log(r);
-                // alert.error('Unauthorized Access!');
-                alert('Unauthorized Access!');
+                if(r.status == 200){
+                    alert.success("New Agent Created");
+                    this.openCloseFrom();
+                }
+            }).catch((error)=>{
+                if(error.response.status == 422){
+                    if(error.response.data.status == 1){
+                        this.bindServerError(error.response.data.msg);
+                    }
+                }
+                else{
+                    alert.error("Unable to create agent, Please refresh & try again.");
+                }
             });
         }
         else{
-            // alert.info('Please complete login form!');
-            alert('Please complete login form!');
+            alert.info('Please complete the form!');
         }
+    }
+
+    bindServerError(errors){
+        let { validation } = this.state;
+        if(typeof(errors.first_name)!="undefined"){
+            validation.first_name.message = errors.first_name[0];
+            validation.first_name.status = false;
+        }
+        if(typeof(errors.last_name)!="undefined"){
+            validation.last_name.message = errors.last_name[0];
+            validation.last_name.status = false;
+        }
+        if(typeof(errors.email)!="undefined"){
+            validation.email.message = errors.email[0];
+            validation.email.status = false;
+        }
+        this.setState({validation:validation});
     }
     
     render() {

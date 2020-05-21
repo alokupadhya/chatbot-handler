@@ -97,6 +97,10 @@
     width: 375px !important; 
 }
 
+#__react-alert__ div{
+    z-index:1000 !important; 
+}
+
 /* 
 ##Device = Low Resolution Tablets, Mobiles
 ##Screen = B/w below 767px

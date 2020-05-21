@@ -6,6 +6,7 @@ use App\ChatboxUsers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+
 class VisitedUsersController extends Controller
 {
     /**

@@ -59,7 +59,7 @@ class ManageAgents extends Component{
                                     <p className="text-secondary">Looks like you don't have any agent</p>
                                     <h5>Create your first Agent here</h5>
                                     <div className="text-center">
-                                        <AddAgent/>
+                                        <AddAgent alert={this.props.alert}/>
                                     </div>
                                 </div>
                             </div>

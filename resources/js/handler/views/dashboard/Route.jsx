@@ -29,7 +29,7 @@ class Main extends Component {
                 <div className="my-5"></div>
                 <Switch>
                     <Route path="/dashboard/admin">
-                        <AdminRoute/>
+                        <AdminRoute alert={this.props.alert}/>
                     </Route>
                 </Switch>
             </Fragment>

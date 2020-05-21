@@ -21,7 +21,7 @@ class Routes extends Component {
                         <AdminDashView/>
                     </Route>
                     <Route path="/dashboard/admin/manage-agents" exact>
-                        <ManageAgentView/>
+                        <ManageAgentView alert={this.props.alert}/>
                     </Route>
                 </Switch>
             </Fragment>

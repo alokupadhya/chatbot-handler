@@ -7423,7 +7423,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".login-form h3{\n    color: #292626;\n    margin: 0 0px 5px;\n    padding: 0;\n    font-weight: 100;\n    font-size: 24px;\n}\n\n\n.form{\n    text-align: left;\n    color: #444444;\n    font-size: 14px;\n}\n\n.form .form-box{\n    margin-bottom: 15px;\n}\n\n.form .form-box label{\n    display: block;\n}\n\n.form .form-box input, .form .form-box select{\n    display: block;\n    width: 100%;\n    border: none;\n    padding: 4% 5%;\n    background: none;\n    border: 2px solid #dddddd;\n    margin-top: 5px;\n    border-radius: 5px;\n    position: relative;\n    outline: none;\n}\n\n.form .form-box input.disable{\n    background-color: rgb(214, 214, 214) !important;\n}\n\n.form .form-box input:focus,.form .form-box select:focus{\n    border: 2px solid #3f51b5;\n}\n\n.forgot-password{\n    font-size: 14px;\n}\n\n.forgot-password a{\n    text-decoration: none;\n    color: darkslategrey;\n    cursor: pointer;\n}\n\n.popup-content {\n    border:none;\n    border-radius: 5px;\n    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);\n}\n\n.popup-container{\n    position: relative;\n    padding: 5% 8%;\n}\n\n.close-on-popup{\n    position: absolute;\n    right: 10px;\n    top: 10px;\n    cursor: pointer;\n}\n\n.btn{\n    background: #3f51b5;\n    border: none;\n    border-radius: 3px;\n    padding: 10px 15px;\n    color: white;\n    font-size: 14px;\n    cursor: pointer;\n    transition: background-color 0.2s;\n    outline: none;\n    position: relative;\n}\n\n.btn:active{\n    background-color: #3f51b5 !important;\n    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;\n}\n\n.btn:hover{\n    background:#5360ff;\n    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);\n}\n\n#__react-alert__ div div div{\n    width: 375px !important; \n}\n\n/* \n##Device = Low Resolution Tablets, Mobiles\n##Screen = B/w below 767px\n*/\n@media (max-width: 767px) {\n    .popup-content{\n        width: 95% !important;\n    }\n}", ""]);
+exports.push([module.i, ".login-form h3{\n    color: #292626;\n    margin: 0 0px 5px;\n    padding: 0;\n    font-weight: 100;\n    font-size: 24px;\n}\n\n\n.form{\n    text-align: left;\n    color: #444444;\n    font-size: 14px;\n}\n\n.form .form-box{\n    margin-bottom: 15px;\n}\n\n.form .form-box label{\n    display: block;\n}\n\n.form .form-box input, .form .form-box select{\n    display: block;\n    width: 100%;\n    border: none;\n    padding: 4% 5%;\n    background: none;\n    border: 2px solid #dddddd;\n    margin-top: 5px;\n    border-radius: 5px;\n    position: relative;\n    outline: none;\n}\n\n.form .form-box input.disable{\n    background-color: rgb(214, 214, 214) !important;\n}\n\n.form .form-box input:focus,.form .form-box select:focus{\n    border: 2px solid #3f51b5;\n}\n\n.forgot-password{\n    font-size: 14px;\n}\n\n.forgot-password a{\n    text-decoration: none;\n    color: darkslategrey;\n    cursor: pointer;\n}\n\n.popup-content {\n    border:none;\n    border-radius: 5px;\n    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);\n}\n\n.popup-container{\n    position: relative;\n    padding: 5% 8%;\n}\n\n.close-on-popup{\n    position: absolute;\n    right: 10px;\n    top: 10px;\n    cursor: pointer;\n}\n\n.btn{\n    background: #3f51b5;\n    border: none;\n    border-radius: 3px;\n    padding: 10px 15px;\n    color: white;\n    font-size: 14px;\n    cursor: pointer;\n    transition: background-color 0.2s;\n    outline: none;\n    position: relative;\n}\n\n.btn:active{\n    background-color: #3f51b5 !important;\n    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;\n}\n\n.btn:hover{\n    background:#5360ff;\n    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);\n}\n\n#__react-alert__ div div div{\n    width: 375px !important; \n}\n\n#__react-alert__ div{\n    z-index:1000 !important; \n}\n\n/* \n##Device = Low Resolution Tablets, Mobiles\n##Screen = B/w below 767px\n*/\n@media (max-width: 767px) {\n    .popup-content{\n        width: 95% !important;\n    }\n}", ""]);
 
 // exports
 
@@ -79802,7 +79802,6 @@ var AddAgent = /*#__PURE__*/function (_Component) {
       this.setState({
         form: form
       }, this.validationHandler(event.target.name, event.target.value));
-      console.log(event.target.name);
     }
   }, {
     key: "validationHandler",
@@ -79865,7 +79864,9 @@ var AddAgent = /*#__PURE__*/function (_Component) {
     key: "onSubmitHandler",
     value: function () {
       var _onSubmitHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
-        var _this$state, form, validation, _token;
+        var _this2 = this;
+
+        var _this$state, form, validation, _token, alert;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -79874,7 +79875,7 @@ var AddAgent = /*#__PURE__*/function (_Component) {
                 event.preventDefault();
                 _this$state = this.state, form = _this$state.form, validation = _this$state.validation;
                 _token = localStorage.getItem('_token');
-                console.log(_token); // let alert = this.props.alert;
+                alert = this.props.alert;
 
                 if (!validation.status) {
                   _context.next = 9;
@@ -79892,11 +79893,19 @@ var AddAgent = /*#__PURE__*/function (_Component) {
                   },
                   data: form
                 }).then(function (r) {
-                  console.log(r);
-                })["catch"](function (r) {
-                  console.log(r); // alert.error('Unauthorized Access!');
+                  if (r.status == 200) {
+                    alert.success("New Agent Created");
 
-                  alert('Unauthorized Access!');
+                    _this2.openCloseFrom();
+                  }
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    if (error.response.data.status == 1) {
+                      _this2.bindServerError(error.response.data.msg);
+                    }
+                  } else {
+                    alert.error("Unable to create agent, Please refresh & try again.");
+                  }
                 });
 
               case 7:
@@ -79904,8 +79913,7 @@ var AddAgent = /*#__PURE__*/function (_Component) {
                 break;
 
               case 9:
-                // alert.info('Please complete login form!');
-                alert('Please complete login form!');
+                alert.info('Please complete the form!');
 
               case 10:
               case "end":
@@ -79921,6 +79929,30 @@ var AddAgent = /*#__PURE__*/function (_Component) {
 
       return onSubmitHandler;
     }()
+  }, {
+    key: "bindServerError",
+    value: function bindServerError(errors) {
+      var validation = this.state.validation;
+
+      if (typeof errors.first_name != "undefined") {
+        validation.first_name.message = errors.first_name[0];
+        validation.first_name.status = false;
+      }
+
+      if (typeof errors.last_name != "undefined") {
+        validation.last_name.message = errors.last_name[0];
+        validation.last_name.status = false;
+      }
+
+      if (typeof errors.email != "undefined") {
+        validation.email.message = errors.email[0];
+        validation.email.status = false;
+      }
+
+      this.setState({
+        validation: validation
+      });
+    }
   }, {
     key: "render",
     value: function render() {
@@ -80728,7 +80760,9 @@ var Main = /*#__PURE__*/function (_Component) {
         className: "my-5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/dashboard/admin"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_admin_Routes__WEBPACK_IMPORTED_MODULE_4__["default"], null))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_admin_Routes__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        alert: this.props.alert
+      }))));
     }
   }]);
 
@@ -80852,7 +80886,9 @@ var ManageAgents = /*#__PURE__*/function (_Component) {
         className: "text-secondary"
       }, "Looks like you don't have any agent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Create your first Agent here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_dashboard_admin_manage_agent_AddAgent__WEBPACK_IMPORTED_MODULE_2__["default"], null))))))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_dashboard_admin_manage_agent_AddAgent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        alert: this.props.alert
+      }))))))));
     }
   }]);
 
@@ -81068,7 +81104,9 @@ var Routes = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/dashboard/admin/manage-agents",
         exact: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Agents_ManageAgents__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Agents_ManageAgents__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        alert: this.props.alert
+      }))));
     }
   }]);
 
