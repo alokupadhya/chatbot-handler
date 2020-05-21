@@ -96,3 +96,13 @@
 #__react-alert__ div div div{
     width: 375px !important; 
 }
+
+/* 
+##Device = Low Resolution Tablets, Mobiles
+##Screen = B/w below 767px
+*/
+@media (max-width: 767px) {
+    .popup-content{
+        width: 95% !important;
+    }
+}

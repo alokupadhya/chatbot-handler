@@ -1,6 +1,8 @@
 import React,{Component,Fragment} from 'react';
 import {Link} from "react-router-dom";
 
+import AddAgent from '../../../../components/dashboard/admin/manage-agent/AddAgent';
+
 class ManageAgents extends Component{
     constructor(props){
         super(props);
@@ -57,7 +59,7 @@ class ManageAgents extends Component{
                                     <h4 className="text-secondary">Looks like you don't have any agent</h4>
                                     <h4>Create your first Agent here</h4>
                                     <div className="text-center">
-                                        <button className="btn btn-sm btn-thm">Add Agent</button>
+                                        <AddAgent/>
                                     </div>
                                 </div>
                             </div>
