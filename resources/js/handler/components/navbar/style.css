@@ -1,0 +1,157 @@
+.cnav{
+    background: linear-gradient(45deg, #131313 30%, #3c3b3b 90%);
+    padding: 0.5% 5%;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    color: white;
+    display: grid;
+    grid-template-areas: 'brand brand menu menu menu';
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.cnav .cnav-brand{
+    grid-area: brand;
+}
+
+.cnav .cnav-sidebar-btn{
+    position: absolute;
+}
+
+.cnav .cnav-sidebar-btn i.sidebar-btn{
+    font-size: 21px !important;
+    cursor: pointer !important;
+    padding: 13px;
+    border-radius: 4px;
+}
+
+.cnav .cnav-sidebar-btn i.sidebar-btn:hover{
+    color: rgb(221, 221, 221);
+}
+
+.cnav .cnav-brand b{
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+
+.cnav .cnav-menu{
+    grid-area: menu;
+    text-align: right;
+}
+
+.cnav .cnav-menu .cnav-links{
+    margin: 0;
+}
+
+.cnav .cnav-menu .cnav-links li{
+    list-style: none;
+    display: inline;
+    margin-left: 30px;
+}
+
+.cnav .cnav-menu .cnav-links li a{
+    color: white;
+    text-decoration: none;
+    transition: color 0.4s;
+    outline: none;
+    cursor: pointer;
+}
+
+.cnav .cnav-menu .cnav-links li a:hover{
+    color: rgb(204, 204, 204);
+}
+
+.cnav-menu .cnav-links .link .user-menu{
+    padding: 0;
+}
+
+.cnav-menu .cnav-links .link .user-menu li{
+    color: rgb(46, 46, 46);
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 12px 10px 12px 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.cnav-menu .cnav-links .link .user-menu li:hover{
+    color: dimgrey;
+}
+
+.cnav-menu .cnav-links .link .user-menu li i{
+    position: absolute;
+    top:50%;
+    left: 0px;
+    transform: translate(0%,-50%);
+}
+.dropdown-popup{
+    position: relative;
+}
+.dropdown-popup .popup-content{
+    width: fit-content !important;
+}
+
+/* sidebar  */
+
+.sidebar-menu{
+    min-width: 270px;
+    padding-top: 30px;
+}
+
+.sidebar-menu a{
+    text-decoration: none;
+}
+.sidebar-menu h4{
+    padding: 10px 100px 10px 25px;
+    margin-bottom: 2px;
+    margin-top: 0px;
+    font-size: 16px !important;
+    font-weight: 100;
+}
+.sidebar-menu ul{
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid rgb(204, 204, 204);
+    border-bottom: 1px solid rgb(204, 204, 204);
+
+}
+
+.sidebar-menu ul li{
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 60px;
+    color: rgb(46, 46, 46);
+    position: relative;
+    transition: background-color 0.4s;
+    transition: border-left 0.5s;
+    font-size: 14px;
+    background-color: #b7b7b726;
+}
+
+.sidebar-menu ul li:hover{
+    transition: border-left 0.5s;
+    background-color: #d4d6dd;
+    border-left: 10px solid #5a63b6;
+}
+
+.sidebar-menu ul li div{
+    position: absolute;
+    left: 32px;
+    text-align: center;
+    width: 25px;
+}
+
+
+/* 
+##Device = Low Resolution Tablets, Mobiles
+##Screen = B/w below 767px
+*/
+@media (max-width: 767px) {
+    .cnav{
+        grid-template-areas: '. . brand brand menu menu';
+        padding: 2% 5%;
+    }
+}

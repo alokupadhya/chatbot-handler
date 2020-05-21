@@ -18,10 +18,15 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('login', 'API\Handler\Auth\LoginController@login')->name('login.api');
+Route::post('login', 'API\Handler\User\AuthController@login')->name('login.api');
 
 Route::namespace('API\Chatbox')->group(function () {
     Route::prefix('vu')->group(function () {
         Route::post('store', 'VisitedUsersController@store')->name('add_new_visited_user');
     });
+});
+
+// private routes
+Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () {
+    Route::get('logout', 'AuthController@logout')->name('logout');
 });

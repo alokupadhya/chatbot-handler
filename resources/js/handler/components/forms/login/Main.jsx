@@ -58,7 +58,7 @@ class Main extends Component {
                 if(r.status == 200){
                     _token=r.data.token;
                     localStorage.setItem('_token',_token);
-                    window.location.assign('/dashboard');
+                    window.location.assign('/dashboard/admin');
                 }
             }).catch((r)=>{
                 alert.error('Unauthorized Access!');
