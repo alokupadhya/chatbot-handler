@@ -55,9 +55,9 @@ class ManageAgents extends Component{
                                 </div> */}
                                 <div className="text-center py-5">
                                     <img src="/img/data_not_found.png" width="150" alt="test"/>
-                                    <h1>Hmmmmm...</h1>
-                                    <h4 className="text-secondary">Looks like you don't have any agent</h4>
-                                    <h4>Create your first Agent here</h4>
+                                    <h1 className="mb-0">Hmmmmm...</h1>
+                                    <p className="text-secondary">Looks like you don't have any agent</p>
+                                    <h5>Create your first Agent here</h5>
                                     <div className="text-center">
                                         <AddAgent/>
                                     </div>

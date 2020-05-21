@@ -133,7 +133,8 @@ class AddAgent extends Component {
         let {form,validation}= this.state;
         return (
             <Fragment>
-                <button className="btn btn-sm btn-thm" onClick={this.openCloseFrom}>Add Agent</button>
+                <audio>text</audio>
+                <button className="btn btn-sm btn-thm" onClick={this.openCloseFrom}>Create Agent</button>
                 <Popup modal open={this.state.popup} closeOnDocumentClick={false} closeOnEscape={false}>
                     <div className="popup-container">
                         <span className="close-on-popup" onClick={this.openCloseFrom}><i className="fa fa-times-circle"></i></span>
