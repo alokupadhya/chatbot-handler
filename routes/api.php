@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('login', 'API\Handler\User\AuthController@login')->name('login.api');
+// private routes
+Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () {
+    Route::get('logout', 'AuthController@logout')->name('logout');
+});
 
 Route::namespace('API\Chatbox')->group(function () {
     Route::prefix('vu')->group(function () {
@@ -26,7 +30,8 @@ Route::namespace('API\Chatbox')->group(function () {
     });
 });
 
-// private routes
-Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () {
-    Route::get('logout', 'AuthController@logout')->name('logout');
+Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\User')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::post('/create-agent','AgentController@store')->name('create_new_agent');
+    });
 });

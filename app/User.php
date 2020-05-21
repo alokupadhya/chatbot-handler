@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -40,6 +40,10 @@ class User extends Authenticatable
 
     public function role(){
         return $this->hasOne(UserRoles::class,'id','role_id');
+    }
+
+    public function workStatus(){
+        return $this->hasOne(UserWorkStatus::class,'id','work_status_id');
     }
 
     public function isAdmin(){

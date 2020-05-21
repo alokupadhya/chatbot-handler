@@ -79865,38 +79865,49 @@ var AddAgent = /*#__PURE__*/function (_Component) {
     key: "onSubmitHandler",
     value: function () {
       var _onSubmitHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
-        var _this$state, _token, form, validation;
+        var _this$state, form, validation, _token;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 event.preventDefault();
-                _this$state = this.state, _token = _this$state._token, form = _this$state.form, validation = _this$state.validation;
-                console.log(form); // let alert = this.props.alert;
-                // if(validation.status){
-                //     await axios({
-                //         url:"/api/login",
-                //         method:"POST",
-                //         data:form
-                //     }).then((r)=>{
-                //         if(r.status == 200){
-                //             _token=r.data.token;
-                //             localStorage.setItem('_token',_token);
-                //             window.location.assign('/dashboard/admin');
-                //         }
-                //     }).catch((r)=>{
-                //         alert.error('Unauthorized Access!');
-                //     });
-                //     this.setState({
-                //         _token:_token,
-                //     });
-                // }
-                // else{
-                //     alert.info('Please complete login form!');
-                // }
+                _this$state = this.state, form = _this$state.form, validation = _this$state.validation;
+                _token = localStorage.getItem('_token');
+                console.log(_token); // let alert = this.props.alert;
 
-              case 3:
+                if (!validation.status) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 7;
+                return axios({
+                  url: "/api/admin/create-agent",
+                  method: "POST",
+                  headers: {
+                    'Authorization': 'Bearer ' + _token,
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: form
+                }).then(function (r) {
+                  console.log(r);
+                })["catch"](function (r) {
+                  console.log(r); // alert.error('Unauthorized Access!');
+
+                  alert('Unauthorized Access!');
+                });
+
+              case 7:
+                _context.next = 10;
+                break;
+
+              case 9:
+                // alert.info('Please complete login form!');
+                alert('Please complete login form!');
+
+              case 10:
               case "end":
                 return _context.stop();
             }

@@ -101,32 +101,33 @@ class AddAgent extends Component {
 
     async onSubmitHandler(event){
         event.preventDefault();
-        let {_token,form,validation}= this.state;
-        console.log(form);
+        let {form,validation}= this.state;
+        let _token = localStorage.getItem('_token');
+        console.log(_token);
         
         // let alert = this.props.alert;
-        // if(validation.status){
-        //     await axios({
-        //         url:"/api/login",
-        //         method:"POST",
-        //         data:form
-        //     }).then((r)=>{
-        //         if(r.status == 200){
-        //             _token=r.data.token;
-        //             localStorage.setItem('_token',_token);
-        //             window.location.assign('/dashboard/admin');
-        //         }
-        //     }).catch((r)=>{
-        //         alert.error('Unauthorized Access!');
-        //     });
-           
-        //     this.setState({
-        //         _token:_token,
-        //     });
-        // }
-        // else{
-        //     alert.info('Please complete login form!');
-        // }
+        if(validation.status){
+            await axios({
+                url:"/api/admin/create-agent",
+                method:"POST",
+                headers: {
+                    'Authorization': 'Bearer '+ _token,
+                    'ContentType':'application/json',
+                    'Accept':'application/json'
+                },
+                data:form
+            }).then((r)=>{
+                console.log(r);
+            }).catch((r)=>{
+                console.log(r);
+                // alert.error('Unauthorized Access!');
+                alert('Unauthorized Access!');
+            });
+        }
+        else{
+            // alert.info('Please complete login form!');
+            alert('Please complete login form!');
+        }
     }
     
     render() {
