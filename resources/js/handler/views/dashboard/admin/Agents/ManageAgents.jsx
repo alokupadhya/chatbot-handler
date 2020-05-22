@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 
 import AddAgent from '../../../../components/dashboard/admin/manage-agent/AddAgent';
 import UpdateAgent from '../../../../components/dashboard/admin/manage-agent/UpdateAgent';
-import UpdateStatus from '../../../../components/dashboard/admin/manage-agent/UpdateStatus';
 
 
 class ManageAgents extends Component{
