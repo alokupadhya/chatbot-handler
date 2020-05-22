@@ -37,11 +37,14 @@ class Sidebar extends Component{
                     </ul>
                     <h4>Chatbot Questions</h4>
                     <ul>
-                        <li>
-                            <div>
-                                <i className="fa fa-robot"></i>
-                            </div> Manage Questions
-                        </li>
+                        <Link to="/dashboard/admin/manage-chatbot-qa" onClick={this.closeSideBar}>
+                            <li>
+                                <div>
+                                    <i className="fa fa-robot"></i>
+                                </div> Manage Questions
+                            </li>
+                        </Link>
+
                         <li>
                             <div>
                                 <i className="fa fa-copy"></i>

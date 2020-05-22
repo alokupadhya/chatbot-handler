@@ -6,6 +6,7 @@ import {
 
 import AdminDashView from './Main';
 import ManageAgentView from './Agents/ManageAgents';
+import ManageBotQAView from './chatbot-qu/ManageBotQA';
 
 class Routes extends Component {
 
@@ -22,6 +23,9 @@ class Routes extends Component {
                     </Route>
                     <Route path="/dashboard/admin/manage-agents" exact>
                         <ManageAgentView alert={this.props.alert}/>
+                    </Route>
+                    <Route path="/dashboard/admin/manage-chatbot-qa" exact>
+                        <ManageBotQAView alert={this.props.alert}/>
                     </Route>
                 </Switch>
             </Fragment>

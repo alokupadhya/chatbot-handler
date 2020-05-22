@@ -41,5 +41,11 @@ class DatabaseSeeder extends Seeder
             'role_id' => 1,
             'password' => Hash::make('password'),
         ]);
+
+        // admin
+        DB::table('bot_questions')->insert([
+            'qa' => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium." ,
+            'type' => 0,
+        ]);
     }
 }

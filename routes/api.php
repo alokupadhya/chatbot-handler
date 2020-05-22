@@ -38,3 +38,9 @@ Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\User')->group(
         Route::get('/get-agents','AgentController@show')->name('get_agents_list');
     });
 });
+
+Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\Bot')->group(function () {
+    Route::prefix('admin/bot')->group(function () {
+        Route::get('/get-root-node','ManageBotController@show')->name('get_root_node');
+    });
+});
