@@ -1,30 +1,31 @@
 import React, { Component, Fragment} from 'react';
 import Popup from "reactjs-popup";
 
-class AddAgent extends Component {
+class UpdateAgent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             popup:false,
             form:{
-                first_name:"",
-                last_name:"",
-                email:"",
+                id:this.props.id,
+                first_name:this.props.first_name,
+                last_name:this.props.last_name,
+                email:this.props.email,
             },
             validation:{
+                status:true,
                 first_name:{
                     message:"",
-                    status:null,
+                    status:true,
                 },
                 last_name:{
                     message:"",
-                    status:null,
+                    status:true,
                 },
                 email:{
                     message:"",
-                    status:null,
+                    status:true,
                 },
-                status:false,
             }
         }
         this.openCloseFrom = this.openCloseFrom.bind(this);
@@ -113,7 +114,7 @@ class AddAgent extends Component {
         let alert = this.props.alert;
         if(validation.status){
             await axios({
-                url:"/api/admin/create-agent",
+                url:"/api/admin/update-agent",
                 method:"POST",
                 headers: {
                     'Authorization': 'Bearer '+ _token,
@@ -123,7 +124,7 @@ class AddAgent extends Component {
                 data:form
             }).then((r)=>{
                 if(r.status == 200){
-                    alert.success("New Agent Created");
+                    alert.success("Agent Details Updated");
                     this.openCloseFrom();
                 }
             }).catch((error)=>{
@@ -133,7 +134,7 @@ class AddAgent extends Component {
                     }
                 }
                 else{
-                    alert.error("Unable to create agent, Please refresh & try again.");
+                    alert.error("Unable to update agent, Please refresh & try again.");
                 }
             });
         }
@@ -163,12 +164,14 @@ class AddAgent extends Component {
         let {form,validation}= this.state;
         return (
             <Fragment>
-                <button className="btn-theme" onClick={this.openCloseFrom}>Create Agent</button>
+                <button className="btn btn-primary btn-sm" onClick={this.openCloseFrom} title="Update Agent Detail">
+                    <i className="fa fa-edit"></i>
+                </button>
                 <Popup modal open={this.state.popup} closeOnDocumentClick={false} closeOnEscape={false}>
                     <div className="popup-container">
                         <span className="close-on-popup" onClick={this.openCloseFrom}><i className="fa fa-times-circle"></i></span>
                         <form className="form" onSubmit={this.onSubmitHandler}>
-                            <h3>Create New Agent</h3>
+                            <h3>Update Agent Details</h3>
                             <div className="form-box">
                                 <label>First Name 
                                     <small className={validation.first_name.status==false?"text-danger":"d-none"}>
@@ -194,7 +197,7 @@ class AddAgent extends Component {
                                     </small></label>
                                 <input type="email" name="email" value={form.email} onChange={this.onChangeHandler}/>
                             </div>
-                            <button className="btn-theme">Create</button>
+                            <button className="btn-theme">Update</button>
                         </form>
                     </div>
                 </Popup>
@@ -203,4 +206,4 @@ class AddAgent extends Component {
     }
 }
 
-export default AddAgent;
+export default UpdateAgent;

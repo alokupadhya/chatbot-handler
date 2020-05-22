@@ -46,8 +46,6 @@ class AgentController extends Controller
             }
             else
             {
-                $admin = Auth::user();
-                $usr = new User();
                 $now = time();
                 $data = [
                     'first_name' => $request->first_name,
@@ -56,11 +54,10 @@ class AgentController extends Controller
                     'password' => Hash::make($now),
                     'email' => $request->email,
                 ];
-                // $usr->create($data);
+                User::create($data);
+                DB::commit();
                 $response = ['msg' => 'Data '.RESPONSE_ADD_ROWS, 'status' => 1];
 		    	return response($response, RESPONSE_SUCCESS);
-                // Mail::to($data['email'])->send(new AgentPassword($data));
-                // DB::commit();
             }
         }
         catch (\Exception $e) 
@@ -76,9 +73,21 @@ class AgentController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show()
     {
-        //
+        try 
+    	{
+            $usr = User::select('id', 'first_name', 'last_name','email','status','updated_at')->where('role_id',DB::table('user_roles')->where('type','agent')->value('id'))->get();
+            $deactive = User::where('role_id',DB::table('user_roles')->where('type','agent')->value('id'))->where('status',0)->get();
+            $active = User::where('role_id',DB::table('user_roles')->where('type','agent')->value('id'))->where('status',1)->get();
+              		
+            $response = ['msg' => RESPONSE_ALL_ROWS ,'records'=>$usr, 'deactive'=>count($deactive), 'active'=>count($active), 'status'=> 1];
+		    return response($response, RESPONSE_SUCCESS);
+    	} 
+    	catch (\Exception $e) 
+    	{
+    		return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
+    	}
     }
 
 
@@ -89,9 +98,50 @@ class AgentController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try
+    	{
+            $validation = [
+                'first_name'    => 'required',
+                'last_name' => 'required',
+            ];
+            $data = [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ];
+            $usr = User::findorFail($request->id);
+            if($usr->email != $request->email){
+                $now = time();
+                $validation['email'] = 'required|email|unique:users,email|max:255';
+                $data['email'] = $request->email;
+                $data['password'] = Hash::make($now);
+            }
+            else{
+                $validation['email'] = 'required|email';
+            } 
+            
+            $validator = Validator::make($request->all(), $validation);
+            
+            if ($validator->fails()) 
+            { 
+                $response = ['msg' => $validator->errors(), 'status' => 1];
+                return response()->json($response, RESPONSE_UNPROCESSABLE_ENTITY);            
+            }
+            else
+            {
+                $usr->update($data);
+                DB::commit();
+                $response = ['msg' => 'Data '.RESPONSE_EDIT_ROWS, 'status' => 1];
+		    	return response($response, RESPONSE_SUCCESS);
+            }
+        }
+        catch (\Exception $e) 
+		{
+            DB::rollback();
+			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
+		}
     }
 
     /**
@@ -100,8 +150,23 @@ class AgentController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function updateStatus(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try
+    	{
+            User::where('id', $request->id)->update([
+                'status'=>!$request->status,
+            ]);
+            DB::commit();
+            $response = ['msg' => 'Data '.RESPONSE_EDIT_ROWS, 'status' => 1];
+            return response($response, RESPONSE_SUCCESS);
+            
+        }
+        catch (\Exception $e) 
+		{
+            DB::rollback();
+			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
+		}
     }
 }

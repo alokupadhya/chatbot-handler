@@ -33,5 +33,8 @@ Route::namespace('API\Chatbox')->group(function () {
 Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\User')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::post('/create-agent','AgentController@store')->name('create_new_agent');
+        Route::post('/update-agent','AgentController@update')->name('update_agent');
+        Route::post('/update-status','AgentController@updateStatus')->name('update_agent_status');
+        Route::get('/get-agents','AgentController@show')->name('get_agents_list');
     });
 });

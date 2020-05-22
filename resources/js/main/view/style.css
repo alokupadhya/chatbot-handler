@@ -52,7 +52,7 @@ html{
 ::-webkit-scrollbar
 {
     width: 8px;
-    background-color: #5360ff;
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb

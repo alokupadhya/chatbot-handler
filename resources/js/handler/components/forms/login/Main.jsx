@@ -148,7 +148,7 @@ class Main extends Component {
                             </label>
                             <input type="password" name="password" value={form.password} onChange={this.onChangeHandler}/>
                         </div>
-                        <button className="btn">Login</button> <span className="forgot-password">or <a onClick={this.openCloseForgot}>forgot password?</a></span>
+                        <button className="btn-theme">Login</button> <span className="forgot-password">or <a onClick={this.openCloseForgot}>forgot password?</a></span>
                     </form>
 
                     {/* Reset password form */}
@@ -161,7 +161,7 @@ class Main extends Component {
                                     <label>Enter your registered Email ID</label>
                                     <input type="text"/>
                                 </div>
-                                <button className="btn btn-thm">Send</button>
+                                <button className="btn-theme">Send</button>
                             </form>
                         </div>
                     </Popup>

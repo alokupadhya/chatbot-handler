@@ -1,3 +1,16 @@
 .box{
     padding: 2% 6%;
 }
+
+.box-left-title div{
+    border-left: 5px solid #5360ff;
+    padding: 10px;
+}
+
+.table-wrapper{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+    border: 0;
+}
