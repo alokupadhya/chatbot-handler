@@ -37,7 +37,7 @@ class Sidebar extends Component{
                     </ul>
                     <h4>Chatbot Questions</h4>
                     <ul>
-                        <Link to="/dashboard/admin/manage-chatbot-qa" onClick={this.closeSideBar}>
+                        <Link to="/dashboard/admin/manage-chatbot-qa/root" onClick={this.closeSideBar}>
                             <li>
                                 <div>
                                     <i className="fa fa-robot"></i>

@@ -8,6 +8,7 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import { Circle } from 'react-preloaders';
 
 import Login from './handler/views/login/Main';
 import Dashboard from './handler/views/dashboard/Route';

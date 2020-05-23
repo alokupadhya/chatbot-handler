@@ -14,3 +14,13 @@
     max-width: 100%;
     border: 0;
 }
+
+.next-node-link a {
+    text-decoration: none;
+    color: white;
+}
+
+.next-node-link a:hover {
+    text-decoration: none;
+    color: white;
+}

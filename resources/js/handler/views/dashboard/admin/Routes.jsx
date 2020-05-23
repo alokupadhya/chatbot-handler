@@ -24,7 +24,7 @@ class Routes extends Component {
                     <Route path="/dashboard/admin/manage-agents" exact>
                         <ManageAgentView alert={this.props.alert}/>
                     </Route>
-                    <Route path="/dashboard/admin/manage-chatbot-qa" exact>
+                    <Route path="/dashboard/admin/manage-chatbot-qa">
                         <ManageBotQAView alert={this.props.alert}/>
                     </Route>
                 </Switch>

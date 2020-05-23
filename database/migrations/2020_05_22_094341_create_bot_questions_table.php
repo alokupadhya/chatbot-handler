@@ -31,14 +31,14 @@ class CreateBotQuestionsTable extends Migration
             $table->integer('status')->default('1');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-            $table->foreign('bot_question_id')->references('id')->on('bot_questions');
+            $table->foreign('bot_question_id')->references('id')->on('bot_questions')->onDelete('cascade');
             $table->dropForeign('bot_options_bot_question_id_foreign');
 
         });
 
         Schema::table('bot_questions', function(Blueprint $table)
         {
-            $table->foreign('bot_option_id')->references('id')->on('bot_options');
+            $table->foreign('bot_option_id')->references('id')->on('bot_options')->onDelete('cascade');
             $table->dropForeign('bot_questions_bot_option_id_foreign');
 
         });

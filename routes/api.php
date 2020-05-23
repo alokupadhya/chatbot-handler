@@ -41,6 +41,13 @@ Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\User')->group(
 
 Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\Bot')->group(function () {
     Route::prefix('admin/bot')->group(function () {
-        Route::get('/get-root-node','ManageBotController@show')->name('get_root_node');
+        Route::get('/get-root-node','ManageBotController@getRootNode')->name('get_root_node');
+        Route::post('/get-node','ManageBotController@getNode')->name('get_node');
+        Route::post('/get-options','ManageBotController@getOption')->name('get_options');
+        Route::post('/add-option','ManageBotController@addOptionInNode')->name('add_option');
+        Route::post('/update-node-question','ManageBotController@updateQuestion')->name('update_node_question');
+        Route::post('/update-node-option','ManageBotController@updateOption')->name('update_node_option');
+        Route::post('/delete-node','ManageBotController@deleteOption')->name('delete_node_option');
+
     });
 });
