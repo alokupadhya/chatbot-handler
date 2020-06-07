@@ -1,5 +1,6 @@
 import React,{Component,Fragment} from 'react';
 import {Link} from "react-router-dom";
+import {withAlert} from 'react-alert';
 
 import AddAgent from '../../../../components/dashboard/admin/manage-agent/AddAgent';
 import UpdateAgent from '../../../../components/dashboard/admin/manage-agent/UpdateAgent';
@@ -194,4 +195,4 @@ class ManageAgents extends Component{
     }
 }
 
-export default ManageAgents;
+export default withAlert()(ManageAgents);

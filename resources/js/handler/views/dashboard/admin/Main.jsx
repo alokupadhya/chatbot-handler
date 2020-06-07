@@ -1,5 +1,5 @@
 import React,{Fragment,Component} from 'react';
-import './style.css';
+import '../style.css';
 
 class Main extends Component{
     constructor(props){

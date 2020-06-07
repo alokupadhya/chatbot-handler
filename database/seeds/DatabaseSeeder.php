@@ -43,8 +43,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // admin
+        DB::table('users')->insert([
+            'first_name' => Str::random(5),
+            'last_name' => Str::random(5),
+            'email' => 'agent@gmail.com',
+            'role_id' => 2,
+            'password' => Hash::make('agentpassword'),
+        ]);
+
+        // admin
         DB::table('bot_questions')->insert([
-            'qa' => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium." ,
+            'qa' => "This is the root question of the chat bot. You can edit it by clicking on edit button on right side." ,
             'type' => 0,
         ]);
     }

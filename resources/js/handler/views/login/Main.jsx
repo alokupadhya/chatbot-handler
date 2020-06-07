@@ -4,15 +4,6 @@ import LoginForm from '../../components/forms/login/Main';
 import './style.css';
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-    }
-    componentDidMount(){
-        let _token = localStorage.getItem('_token');
-        if(_token != "" && _token != null){
-            window.location.assign('/dashboard');
-        }
-    }
     render() {
         return (
             <Fragment>

@@ -2,18 +2,23 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
-import { Cube } from 'react-preloaders';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
 } from "react-router-dom";
-import { Circle } from 'react-preloaders';
+
+import PublicRoute from './handler/components/public-route';
+import AdminRoute from './handler/components/admin-route';
+import AgentRoute from './handler/components/agent-route';
 
 import Login from './handler/views/login/Main';
-import Dashboard from './handler/views/dashboard/Route';
-
+import AdminDashView from './handler/views/dashboard/admin/Main';
+import ManageAgentView from './handler/views/dashboard/admin/Agents/ManageAgents';
+import ManageBotQAView from './handler/views/dashboard/admin/chatbot-qu/ManageBotQA';
 import Footer from './handler/components/footer/Main';
+
+import AgentDashView from './handler/views/dashboard/agent/Main';
+
 
 export default class Handler extends Component {
     render() {
@@ -28,13 +33,21 @@ export default class Handler extends Component {
                 <AlertProvider template={AlertTemplate} {...options}>
                     <Router>
                         <Switch>
-                            <Route path="/" exact component={Login}/>
-                            <Route path="/dashboard" component={Dashboard}/>
+                            {/* public routes */}
+                            <PublicRoute path="/" exact component={Login}/>
+                            
+                            {/* Admin routes */}
+                            <AdminRoute path="/dashboard/admin" exact component={AdminDashView}/>
+                            <AdminRoute path="/dashboard/admin/manage-agents" exact component={ManageAgentView}/>
+                            <AdminRoute path="/dashboard/admin/manage-chatbot-qa" component={ManageBotQAView}/>
+                        
+                            {/* Agent Routes */}
+                            <AgentRoute path="/dashboard/agent" exact component={AgentDashView}/>
+
                         </Switch>
                     </Router>
                     <Footer/>
                 </AlertProvider>
-                <Cube/>
             </React.Fragment>
         );
     }

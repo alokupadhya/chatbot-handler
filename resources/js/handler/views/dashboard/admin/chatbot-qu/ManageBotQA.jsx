@@ -4,14 +4,13 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import {withAlert} from 'react-alert';
+
 import RootNode from '../../../../components/dashboard/admin/chatbot-qu/RootNode';
 import NextNode from '../../../../components/dashboard/admin/chatbot-qu//NextNode';
 
 
 class ManageBotQA extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <Fragment>
@@ -55,4 +54,4 @@ class ManageBotQA extends Component {
     }
 }
 
-export default ManageBotQA;
+export default withAlert()(ManageBotQA);

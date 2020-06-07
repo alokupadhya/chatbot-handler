@@ -30,6 +30,13 @@ Route::namespace('API\Chatbox')->group(function () {
     });
 });
 
+// Admin APIs
+Route::middleware(['auth:api','isAdmin'])->group(function () {
+    Route::post('/is-admin', function () {
+        return true;
+    });
+});
+
 Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\User')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::post('/create-agent','AgentController@store')->name('create_new_agent');
@@ -51,3 +58,12 @@ Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\Bot')->group(f
 
     });
 });
+// Admin APIs End
+
+// Agent APIs
+Route::middleware(['auth:api','isAgent'])->group(function () {
+    Route::post('/is-agent', function () {
+        return true;
+    });
+});
+// Agent APIs End
