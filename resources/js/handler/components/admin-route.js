@@ -7,20 +7,20 @@ import { Cube } from 'react-preloaders';
 
 const AdminRoute = ({component: Component, ...rest})=>{
     const [auth,setAuth] = useState(undefined);
-    (()=>{
+    useEffect(()=>{
         Auth.isAdmin().then(
             (data)=>{
                 setAuth(data);
             }
         )
-    })()
+    });
     if(auth!=undefined){
         return(
             <Route
                 {...rest}
                 render={
                     props => {
-                        //console.log("admin route ====");
+                        console.log("admin route ====");
                         if (auth) {
                             return (
                                 <React.Fragment>

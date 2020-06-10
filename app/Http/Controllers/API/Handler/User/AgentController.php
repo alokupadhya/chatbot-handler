@@ -9,6 +9,10 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Hash;
+use Mail;
+
+use App\Mail\Account\Agent\Password as AgentPassword;
+
 
 class AgentController extends Controller
 {
@@ -51,9 +55,11 @@ class AgentController extends Controller
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                     'role_id' => DB::table('user_roles')->where('type','agent')->value('id'),
-                    'password' => Hash::make($now),
+                    'password' => $now,
                     'email' => $request->email,
                 ];
+                if(isset($data['password'])) Mail::to($data['email'])->send(new AgentPassword($data));
+                if(isset($data['password'])) $data['password'] = Hash::make($data['password']);
                 User::create($data);
                 DB::commit();
                 $response = ['msg' => 'Data '.RESPONSE_ADD_ROWS, 'status' => 1];
@@ -116,7 +122,7 @@ class AgentController extends Controller
                 $now = time();
                 $validation['email'] = 'required|email|unique:users,email|max:255';
                 $data['email'] = $request->email;
-                $data['password'] = Hash::make($now);
+                $data['password'] = $now;
             }
             else{
                 $validation['email'] = 'required|email';
@@ -131,6 +137,8 @@ class AgentController extends Controller
             }
             else
             {
+                if(isset($data['password'])) Mail::to($data['email'])->send(new AgentPassword($data));
+                if(isset($data['password'])) $data['password'] = Hash::make($data['password']);
                 $usr->update($data);
                 DB::commit();
                 $response = ['msg' => 'Data '.RESPONSE_EDIT_ROWS, 'status' => 1];
@@ -143,6 +151,7 @@ class AgentController extends Controller
 			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
 		}
     }
+
 
     /**
      * Remove the specified resource from storage.

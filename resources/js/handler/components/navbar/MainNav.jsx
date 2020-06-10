@@ -4,6 +4,8 @@ import Popup from "reactjs-popup";
 import Sidebar from "react-sidebar"
 import axios from 'axios';
 
+import Auth from '../../services/auth';
+
 import NavSidebar from './Sidebar';
 
 const mql = window.matchMedia(`(min-width: 800px)`);
@@ -13,11 +15,20 @@ class MainNav extends Component {
         super(props);
         this.state = {
             sidebarDocked: mql.matches,
-            sidebarOpen: false
+            sidebarOpen: false,
+            isAgent:true
         };
         this.onClickLogout = this.onClickLogout.bind(this);
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
         this.childHandler = this.childHandler.bind(this);
+    }
+
+    componentDidMount(){
+        Auth.isAgent().then((data)=>{
+            this.setState({
+                isAgent:data
+            });
+        });
     }
 
     onSetSidebarOpen(open) {
@@ -50,7 +61,36 @@ class MainNav extends Component {
     }
 
     render() {
-        let {sidebarOpen,sidebarDocked} = this.state;
+        let {sidebarOpen,isAgent} = this.state;
+        
+
+        if(isAgent){
+            return(
+                <Fragment>
+                    <div className="cnav">
+                        <div className="cnav-brand">
+                            <b>Chatbot Handler</b>
+                        </div>
+                        <div className="cnav-menu">
+                            <ul className="cnav-links">
+                                <li className="link dropdown-popup">
+                                    <Popup
+                                    trigger={<a>Hi! Agent <i className="fa fa-angle-down"></i></a>}
+                                    position="bottom right"
+                                    on="click"
+                                    >
+                                        <ul className="user-menu">
+                                            <li><i className="fa fa-user-circle"></i> Profile</li>
+                                            <li onClick={this.onClickLogout}><i className="fa fa-sign-out-alt"></i> Logout</li>
+                                        </ul>
+                                    </Popup>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </Fragment>
+            );
+        }
         return (
             <Fragment>
                 <Sidebar

@@ -86,7 +86,7 @@ class ManageBotController extends Controller
                 
                 $nextNode = [
                     'bot_option_id' => $option->id,
-                    'qa' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+                    'qa' => 'This is final answer for last selected node, you can update or change it to question by clicking on the edit option. ',
                     'type' => 1,
                 ];
                 $nextNodeQ = BotQuestion::Create($nextNode);

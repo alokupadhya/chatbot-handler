@@ -1,6 +1,7 @@
 import React, {Component,Fragment} from 'react';
 import Popup from "reactjs-popup";
 
+import ForgotPassword from '../forgot/Main';
 
 class Main extends Component {
     constructor(props){
@@ -155,14 +156,7 @@ class Main extends Component {
                     <Popup modal open={this.state.forgot} closeOnDocumentClick={false} closeOnEscape={false}>
                         <div className="popup-container">
                             <span className="close-on-popup" onClick={this.openCloseForgot}><i className="fa fa-times-circle"></i></span>
-                            <form className="form">
-                                <h3>Forgot your password?</h3>
-                                <div className="form-box">
-                                    <label>Enter your registered Email ID</label>
-                                    <input type="text"/>
-                                </div>
-                                <button className="btn-theme">Send</button>
-                            </form>
+                            <ForgotPassword alert={this.props.alert}/>
                         </div>
                     </Popup>
                 </div>

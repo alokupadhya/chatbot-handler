@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('login', 'API\Handler\User\AuthController@login')->name('login.api');
+Route::post('forgot-password', 'API\Handler\User\AuthController@forgotPassword')->name('forgot-password.api');
+
 // private routes
 Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () {
     Route::get('logout', 'AuthController@logout')->name('logout');

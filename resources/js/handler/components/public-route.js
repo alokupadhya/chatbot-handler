@@ -1,13 +1,14 @@
-import React,{useState,Fragment} from 'react';
+import React,{useState, useEffect,Fragment} from 'react';
 import {Route,Redirect} from 'react-router-dom';
 import Auth from '../services/auth';
 import { Cube } from 'react-preloaders';
 
 const PublicRoute = ({component: Component, ...rest})=>{
+
     const [authAdmin,setAuthAdmin] = useState(undefined);
     const [authAgent,setAuthAgent] = useState(undefined);
 
-    (()=>{
+    useEffect(()=>{
         Auth.isAdmin().then(
             (data)=>{
                 setAuthAdmin(data);
@@ -18,7 +19,7 @@ const PublicRoute = ({component: Component, ...rest})=>{
                 setAuthAgent(data);
             }
         )
-    })()
+    });
 
     if(authAdmin!=undefined && authAgent!=undefined){
         return(
@@ -26,7 +27,7 @@ const PublicRoute = ({component: Component, ...rest})=>{
                 {...rest}
                 render={
                     props => {
-                        // console.log("public route ----");
+                        console.log("public route ----");
                         if (authAdmin) {
                             return <Redirect
                                 to={
