@@ -3,6 +3,7 @@ import './style.css';
 import Popup from "reactjs-popup";
 import Sidebar from "react-sidebar"
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 import Auth from '../../services/auth';
 
@@ -80,7 +81,9 @@ class MainNav extends Component {
                                     on="click"
                                     >
                                         <ul className="user-menu">
-                                            <li><i className="fa fa-user-circle"></i> Profile</li>
+                                            <Link to="/dashboard/agent/profile">
+                                                <li><i className="fa fa-user-circle"></i> Profile</li>
+                                            </Link>
                                             <li onClick={this.onClickLogout}><i className="fa fa-sign-out-alt"></i> Logout</li>
                                         </ul>
                                     </Popup>
@@ -118,7 +121,9 @@ class MainNav extends Component {
                                     on="click"
                                     >
                                         <ul className="user-menu">
-                                            <li><i className="fa fa-user-circle"></i> Profile</li>
+                                            <Link to="/dashboard/admin/profile">
+                                                <li><i className="fa fa-user-circle"></i> Profile</li>
+                                            </Link>
                                             <li onClick={this.onClickLogout}><i className="fa fa-sign-out-alt"></i> Logout</li>
                                         </ul>
                                     </Popup>

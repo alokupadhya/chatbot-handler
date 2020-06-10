@@ -87,7 +87,7 @@ class ManageAgents extends Component{
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb bg-light">
                                     <li className="breadcrumb-item" aria-current="page">
-                                        <Link to="/dashboard/admin" onClick={this.closeSideBar}>
+                                        <Link to="/dashboard/admin">
                                             Dashboard
                                         </Link>
                                     </li>

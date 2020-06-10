@@ -18,6 +18,10 @@
                 padding: 0;
                 font-family: 'Nunito', sans-serif;
                 background-color: #e4e4e4;
+                overflow: inherit !important;
+                height: inherit !important;
+                width: inherit !important;
+                position: inherit !important;
             }
         </style>
                

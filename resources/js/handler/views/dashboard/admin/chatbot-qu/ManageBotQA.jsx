@@ -7,7 +7,7 @@ import {
 import {withAlert} from 'react-alert';
 
 import RootNode from '../../../../components/dashboard/admin/chatbot-qu/RootNode';
-import NextNode from '../../../../components/dashboard/admin/chatbot-qu//NextNode';
+import NextNode from '../../../../components/dashboard/admin/chatbot-qu/NextNode';
 
 
 class ManageBotQA extends Component {
@@ -20,7 +20,7 @@ class ManageBotQA extends Component {
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb bg-light">
                                     <li className="breadcrumb-item" aria-current="page">
-                                        <Link to="/dashboard/admin" onClick={this.closeSideBar}>
+                                        <Link to="/dashboard/admin">
                                             Dashboard
                                         </Link>
                                     </li>
