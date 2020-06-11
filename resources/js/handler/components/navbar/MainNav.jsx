@@ -17,7 +17,8 @@ class MainNav extends Component {
         this.state = {
             sidebarDocked: mql.matches,
             sidebarOpen: false,
-            isAgent:true
+            isAgent:true,
+            user:{}
         };
         this.onClickLogout = this.onClickLogout.bind(this);
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
@@ -30,7 +31,11 @@ class MainNav extends Component {
                 isAgent:data
             });
         });
-    }
+
+        let {user} = this.state;
+        user = JSON.parse(localStorage.getItem('user'));
+        this.setState({user});        
+    } 
 
     onSetSidebarOpen(open) {
         this.setState({ sidebarOpen: open });
@@ -62,7 +67,7 @@ class MainNav extends Component {
     }
 
     render() {
-        let {sidebarOpen,isAgent} = this.state;
+        let {sidebarOpen,isAgent,user} = this.state;
         
 
         if(isAgent){
@@ -76,7 +81,7 @@ class MainNav extends Component {
                             <ul className="cnav-links">
                                 <li className="link dropdown-popup">
                                     <Popup
-                                    trigger={<a>Hi! Agent <i className="fa fa-angle-down"></i></a>}
+                                    trigger={<a>Hi! {user.first_name} <i className="fa fa-angle-down"></i></a>}
                                     position="bottom right"
                                     on="click"
                                     >
@@ -116,7 +121,7 @@ class MainNav extends Component {
                                 </li> */}
                                 <li className="link dropdown-popup">
                                     <Popup
-                                    trigger={<a>Hi! Admin <i className="fa fa-angle-down"></i></a>}
+                                    trigger={<a>Hi! {user.first_name} <i className="fa fa-angle-down"></i></a>}
                                     position="bottom right"
                                     on="click"
                                     >

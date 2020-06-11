@@ -19,6 +19,7 @@ const PublicRoute = ({component: Component, ...rest})=>{
                 setAuthAgent(data);
             }
         )
+        localStorage.removeItem('data');
     });
 
     if(authAdmin!=undefined && authAgent!=undefined){

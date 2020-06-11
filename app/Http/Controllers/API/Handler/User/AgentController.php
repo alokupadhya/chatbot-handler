@@ -178,4 +178,31 @@ class AgentController extends Controller
 			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
 		}
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function updateWorkStatus(Request $request)
+    {
+        DB::beginTransaction();
+        try
+    	{
+            $user = Auth::user();
+            $data = [];
+            $data['work_status_id'] = ($user->workStatus->type == "online")?1:2;
+            $user->update($data);
+            DB::commit();
+            $response = ['msg' => "Your status is now ".(($user->workStatus->type == "online")?"offline":"Online"), 'status' => 1];
+            return response($response, RESPONSE_SUCCESS);
+            
+        }
+        catch (\Exception $e) 
+		{
+            DB::rollback();
+			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
+		}
+    }
 }

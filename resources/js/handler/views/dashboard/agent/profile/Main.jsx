@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from 'react';
+import {withAlert} from 'react-alert';
 import {Link} from 'react-router-dom';
+import UpdatePassword from '../../../../components/dashboard/comman/form/UpdatePassword';
+
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: {
-                first_name:"John",
-                last_name:"Doe",
-                email:"johnd@gmail.com",
             },
-            _token:null,
         }
     }
+
+    componentDidMount(){
+        let {user} = this.state;
+        user = JSON.parse(localStorage.getItem('user'));
+        this.setState({user}); 
+    } 
     
     render() {
         let {user} = this.state;
@@ -34,7 +39,7 @@ class Main extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-12 col-md-4 pl-0 pr-1">
+                        <div className="col-12 col-md-4 px-0 pl-md-0 pr-md-1 mb-2">
                             <div className="bg-light rounded shadow-sm p-3 text-center h-100">
                                 <img src={require('../../../../../images/people.png')} width="150"/>
                                 <hr/>
@@ -42,28 +47,26 @@ class Main extends Component {
                                 <b className="text-muted">Agent</b>
                             </div>
                         </div>
-                        <div className="col-12 col-md-8 pl-1 pr-0">
+                        <div className="col-12 col-md-8 px-0 pl-md-1 pr-md-0">
                             <div className="bg-light rounded shadow-sm p-3 h-100">
                                 <h5><b>Profile Details</b></h5>
                                 <table className="table text-left">
-                                    <tr>
-                                        <td width="40%"><b>First Name</b></td>
-                                        <td>{user.first_name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Last Name</b></td>
-                                        <td>{user.last_name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Email</b></td>
-                                        <td>{user.email}</td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td width="40%"><b>First Name</b></td>
+                                            <td>{user.first_name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Last Name</b></td>
+                                            <td>{user.last_name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Email</b></td>
+                                            <td>{user.email}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
-                                <div className="alert alert-danger">
-                                    <b>Note:</b>
-                                    <p>To update name or email please contact to adminstration.</p>
-                                </div>
-                                <button className="btn btn-success"><i className="fa fa-key"></i> Update Password</button>
+                                <UpdatePassword alert={this.props.alert}/>
                             </div>
                         </div>
                     </div>
@@ -73,4 +76,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default withAlert()(Main);

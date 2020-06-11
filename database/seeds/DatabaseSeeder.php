@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'type' => "offline",
         ]);
         DB::table('user_work_status')->insert([
-            'type' => "idle",
+            'type' => "online",
         ]);
         DB::table('user_work_status')->insert([
             'type' => "busy",
@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
 
         // admin
         DB::table('users')->insert([
-            'first_name' => Str::random(5),
-            'last_name' => Str::random(5),
+            'first_name' => 'John',
+            'last_name' => 'Doe',
             'email' => 'test@gmail.com',
             'role_id' => 1,
             'password' => Hash::make('password'),
@@ -44,8 +44,8 @@ class DatabaseSeeder extends Seeder
 
         // admin
         DB::table('users')->insert([
-            'first_name' => Str::random(5),
-            'last_name' => Str::random(5),
+            'first_name' => 'Mark',
+            'last_name' => 'Ronson',
             'email' => 'agent@gmail.com',
             'role_id' => 2,
             'password' => Hash::make('agentpassword'),

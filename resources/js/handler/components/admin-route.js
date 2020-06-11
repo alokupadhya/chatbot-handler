@@ -1,8 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {Route,Redirect} from 'react-router-dom';
-import Auth from '../services/auth';
-import Navbar from '../components/navbar/MainNav';
 import { Cube } from 'react-preloaders';
+
+import Navbar from '../components/navbar/MainNav';
+
+import Auth from '../services/auth';
+import User from '../services/user';
 
 
 const AdminRoute = ({component: Component, ...rest})=>{
@@ -11,6 +14,11 @@ const AdminRoute = ({component: Component, ...rest})=>{
         Auth.isAdmin().then(
             (data)=>{
                 setAuth(data);
+            }
+        )
+        User.getUserDetails().then(
+            (data)=>{
+                localStorage.setItem('user',JSON.stringify(data));
             }
         )
     });

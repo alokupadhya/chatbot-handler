@@ -24,6 +24,10 @@ Route::post('forgot-password', 'API\Handler\User\AuthController@forgotPassword')
 // private routes
 Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () {
     Route::get('logout', 'AuthController@logout')->name('logout');
+    Route::get('/user-details', function () {
+        return Auth::user()->only(['id', 'first_name', 'last_name', 'email', 'work_status_id']);
+    });
+    Route::post('/update-password', 'AuthController@updatePassword')->name('update-password');
 });
 
 Route::namespace('API\Chatbox')->group(function () {
@@ -66,6 +70,12 @@ Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\Bot')->group(f
 Route::middleware(['auth:api','isAgent'])->group(function () {
     Route::post('/is-agent', function () {
         return true;
+    });
+});
+
+Route::middleware(['auth:api','isAgent'])->namespace('API\Handler\User')->group(function () {
+    Route::prefix('agent')->group(function () {
+        Route::post('/update-work-status','AgentController@updateWorkStatus')->name('update_work_status');
     });
 });
 // Agent APIs End

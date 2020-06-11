@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Hash;
+use Auth;
 use App\Mail\Account\ForgotPassword as ForgotPassword;
 use Illuminate\Support\Facades\DB;
 
@@ -110,6 +111,33 @@ class AuthController extends Controller
 			];
 			DB::commit();
 		    return response($response, RESPONSE_SUCCESS);
+		} 
+		catch (\Exception $e) 
+		{
+            DB::rollback();
+			return response($e->getMessage(), RESPONSE_UNAUTHORIZED);
+		}
+	}
+	public function updatePassword (Request $request) 
+	{
+        DB::beginTransaction();
+		try 
+		{
+			$usr = Auth::user();
+			if (Hash::check($request->old_password, $usr->password)){
+				$data = [
+					'password' => \Hash::make($request->new_password),
+				];
+				$usr->update($data);
+				$response = [
+					'msg' => 'Password Updated.',
+					'status' => 1,
+				];
+				DB::commit();
+				return response($response, RESPONSE_SUCCESS);
+			}
+			$response = 'Unauthorized Access';
+		    return response($response, RESPONSE_UNAUTHORIZED);
 		} 
 		catch (\Exception $e) 
 		{

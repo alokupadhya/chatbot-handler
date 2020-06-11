@@ -1,8 +1,11 @@
 import React,{useState, Fragment, useEffect} from 'react';
 import {Route,Redirect} from 'react-router-dom';
-import Auth from '../services/auth';
-import Navbar from '../components/navbar/MainNav';
 import { Cube } from 'react-preloaders';
+
+import Navbar from '../components/navbar/MainNav';
+
+import Auth from '../services/auth';
+import User from '../services/user';
 
 const AgentRoute = ({component: Component, ...rest})=>{
     const [auth,setAuth] = useState(undefined);
@@ -10,6 +13,11 @@ const AgentRoute = ({component: Component, ...rest})=>{
         Auth.isAgent().then(
             (data)=>{
                 setAuth(data);
+            }
+        )
+        User.getUserDetails().then(
+            (data)=>{
+                localStorage.setItem('user',JSON.stringify(data));
             }
         )
     });
