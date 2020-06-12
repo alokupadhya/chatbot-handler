@@ -16,6 +16,7 @@ import AdminDashView from './handler/views/dashboard/admin/Main';
 import ManageAgentView from './handler/views/dashboard/admin/Agents/ManageAgents';
 import ManageBotQAView from './handler/views/dashboard/admin/chatbot-qu/ManageBotQA';
 import AdminProfileView from './handler/views/dashboard/admin/profile/Main';
+import RequestedQU from './handler/views/dashboard/admin/requested-qu';
 
 import AgentDashView from './handler/views/dashboard/agent/Main';
 import AgentProfileView from './handler/views/dashboard/agent/profile/Main';
@@ -45,7 +46,8 @@ export default class Handler extends Component {
                             <AdminRoute path="/dashboard/admin/manage-agents" exact component={ManageAgentView}/>
                             <AdminRoute path="/dashboard/admin/manage-chatbot-qa" component={ManageBotQAView}/>
                             <AdminRoute path="/dashboard/admin/profile" component={AdminProfileView}/>
-                        
+                            <AdminRoute path="/dashboard/admin/requested-questions" component={RequestedQU}/>
+
                             {/* Agent Routes */}
                             <AgentRoute path="/dashboard/agent" exact component={AgentDashView}/>
                             <AgentRoute path="/dashboard/agent/profile" exact component={AgentProfileView}/>

@@ -80,6 +80,25 @@
     transform: translate(-50%,-50%);
 }
 
+/* chatscreen */
+.chat-screen {
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+}
+
+.chat-screen > div:last-child {
+    scroll-snap-align: end;
+}
+
+.chat-screen > div {
+    background: lightgray;
+}
+.chat-screen > div:nth-child(2n) {
+    background: gray;
+}
+
+
 /* 
 ##Device = Low Resolution Tablets, Mobiles
 ##Screen = B/w below 767px

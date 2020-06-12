@@ -14,7 +14,7 @@ class CreateChatboxUsersTable extends Migration
     public function up()
     {
         Schema::create('chatbox_users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id')->autoIncrement()->unsigned();
             $table->string('full_name');
             $table->string('email');
             $table->string('mobile');

@@ -6,4 +6,5 @@ if(!defined('RESPONSE_UNPROCESSABLE_ENTITY')) define('RESPONSE_UNPROCESSABLE_ENT
 // message constant
 if(!defined('RESPONSE_ALL_ROWS')) define('RESPONSE_ALL_ROWS', 'all row fetched.');
 if(!defined('RESPONSE_ADD_ROWS')) define('RESPONSE_ADD_ROWS', 'added successfully.');
-if(!defined('RESPONSE_EDIT_ROWS')) define('RESPONSE_EDIT_ROWS', 'edit successfully.');
+if(!defined('RESPONSE_EDIT_ROWS')) define('RESPONSE_EDIT_ROWS', 'edited successfully.');
+if(!defined('RESPONSE_DELETE_ROWS')) define('RESPONSE_DELETE_ROWS', 'deleted successfully.');

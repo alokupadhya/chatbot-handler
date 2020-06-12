@@ -15,7 +15,7 @@ class Sidebar extends Component{
         return(
             <Fragment>
                 <div className="sidebar-menu">
-                    <Link to="/dashboard" onClick={this.closeSideBar}><h4>Dashboard</h4></Link>
+                    <Link to="/dashboard/admin" onClick={this.closeSideBar}><h4>Dashboard</h4></Link>
                     <h4>Chatbot Agents</h4>
                     <ul>
                         <Link to="/dashboard/admin/manage-agents" onClick={this.closeSideBar}>
@@ -44,12 +44,13 @@ class Sidebar extends Component{
                                 </div> Manage Questions
                             </li>
                         </Link>
-
-                        <li>
-                            <div>
-                                <i className="fa fa-copy"></i>
-                            </div> Requested Questions
-                        </li>
+                        <Link to="/dashboard/admin/requested-questions" onClick={this.closeSideBar}>
+                            <li>
+                                <div>
+                                    <i className="fa fa-copy"></i>
+                                </div> Requested Questions
+                            </li>
+                        </Link>
                     </ul>
                 </div>
             </Fragment>

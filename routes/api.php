@@ -34,6 +34,17 @@ Route::namespace('API\Chatbox')->group(function () {
     Route::prefix('vu')->group(function () {
         Route::post('store', 'VisitedUsersController@store')->name('add_new_visited_user');
     });
+    Route::prefix('chat')->group(function () {
+        Route::get('/get-root-node', 'ChatbotController@getRootNode')->name('get_root_node');
+        Route::post('/get-node', 'ChatbotController@getNode')->name('get_node');
+        
+    });
+    Route::prefix('requested-question')->group(function () {
+        Route::post('/create', 'RequestQuestionController@store')->name('create_rq');
+        Route::get('/show', 'RequestQuestionController@show')->name('show_rq');
+        Route::get('/show-recent', 'RequestQuestionController@showRecent')->name('show_recent_rq');
+        Route::post('/delete', 'RequestQuestionController@destroy')->name('delete_rq');
+    });
 });
 
 // Admin APIs
