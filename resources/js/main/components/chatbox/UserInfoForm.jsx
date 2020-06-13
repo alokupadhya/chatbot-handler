@@ -16,6 +16,7 @@ class UserInfoForm extends Component {
             message:{
                 type:null, text:""
             },
+            lock:false,
         }
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -73,27 +74,43 @@ class UserInfoForm extends Component {
 
     async onSubmitHandler(event){
         event.preventDefault();
-        let {form}= this.state;
-        await axios({
-            url:"/api/vu/store",
-            headers: {
-                'ContentType':'application/json',
-                'Accept':'application/json',
-            },
-            method:"POST",
-            data:form
-        }).then((response)=>{
-            alert(response.data.msg);
-        }).catch((error)=>{
-            if(error.response.status == 422){
-                if(error.response.data.status == 1){
-                    this.bindServerError(error.response.data.msg);
+        let {form,lock}= this.state;
+        let alert = this.props.alert;
+        if(!lock){
+            this.setState({lock:true});
+            alert.info("Please Wait, Connecting with agents");
+            await axios({
+                url:"/api/vu/store",
+                headers: {
+                    'ContentType':'application/json',
+                    'Accept':'application/json',
+                },
+                method:"POST",
+                data:form
+            }).then((r)=>{
+                if(r.status == 200){
+                    alert.info(r.data.msg)
+                    localStorage.setItem('session_token',r.data.records);
+                    this.props.action(true);
                 }
-            }
-            else{
-                alert("Unable to create chat session, Please refresh & try again.");
-            }
-        });
+            }).catch((error)=>{
+                if(error.response.status == 422){
+                    if(error.response.data.status == 1){
+                        this.bindServerError(error.response.data.msg);
+                    }
+                    if(error.response.data.status == 2){
+                        alert.error(error.response.data.msg);
+                    }
+                }
+                else{
+                    alert.error("Unable to create chat session, Please refresh & try again.");
+                }
+                this.setState({lock:false});
+            });
+        }
+        else{
+            alert.info("Please Wait...");
+        }
     }
 
     bindServerError(errors){

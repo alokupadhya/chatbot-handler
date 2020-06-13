@@ -35,9 +35,13 @@ Route::namespace('API\Chatbox')->group(function () {
         Route::post('store', 'VisitedUsersController@store')->name('add_new_visited_user');
     });
     Route::prefix('chat')->group(function () {
+        Route::post('store', 'ChatHandlerController@store')->name('store_chat');
+        Route::post('get-chats', 'ChatHandlerController@show')->name('get_chats');
+    });
+    Route::prefix('chat')->group(function () {
         Route::get('/get-root-node', 'ChatbotController@getRootNode')->name('get_root_node');
         Route::post('/get-node', 'ChatbotController@getNode')->name('get_node');
-        
+        Route::post('/end-session', 'ChatHandlerController@endSession')->name('end_session');
     });
     Route::prefix('requested-question')->group(function () {
         Route::post('/create', 'RequestQuestionController@store')->name('create_rq');
@@ -81,6 +85,14 @@ Route::middleware(['auth:api','isAdmin'])->namespace('API\Handler\Bot')->group(f
 Route::middleware(['auth:api','isAgent'])->group(function () {
     Route::post('/is-agent', function () {
         return true;
+    });
+});
+
+Route::middleware(['auth:api','isAgent'])->namespace('API\Handler\Bot')->group(function () {
+    Route::prefix('agent/chat')->group(function () {
+        Route::post('store', 'ChatHandlerController@store')->name('store_chat');
+        Route::post('get-chats', 'ChatHandlerController@show')->name('get_chats');
+        Route::post('end-session', 'ChatHandlerController@endSession')->name('end_session');
     });
 });
 

@@ -16,4 +16,9 @@ class ChatboxUsers extends Model
     protected $fillable = [
         'full_name', 'email', 'mobile'
     ];
+
+    public function chatSession()
+    {
+        return $this->hasOne('App\AgentChatSession');
+    }
 }

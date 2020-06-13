@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function isAgent(){
         return ($this->role && $this->role->type=='agent')?true:false;
     }
+
+    public function chatSession(){
+        return $this->hasMany('App\AgentChatSession');
+    }
 }

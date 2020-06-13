@@ -2,6 +2,7 @@ import React,{Fragment,Component} from 'react';
 import {withAlert} from 'react-alert';
 import ToggleWorkStatus from '../../../components/dashboard/agent/toggleWorkStatus';
 import '../style.css';
+import ChatScreen from '../../../components/chatscreen';
 
 class Main extends Component{
     constructor(props){
@@ -59,34 +60,11 @@ class Main extends Component{
                         </div>
                         
                         <div className="col-12 col-md-6 px-0 pl-md-1 pr-md-0">
-                            <div className="bg-white rounded p-3">
-                                <i className="fa fa-comment text-secondary"></i> Chat Screen
-                                <br/><br/>
-                                
-                                <div className="p-2 chat-screen border rounded bg-light" style={{minHeight:'305px',}}>
-                                    <b>No active chat</b>
-                                </div>
-                                <form className="form">
-                                    <div className="row px-3 mt-2">
-                                        <div className="col-10 pl-0">
-                                            <div className="form-box mb-0">
-                                                <input type="text" name="msg" placeholder="Type..." style={{marginTop:'0px'}}/>
-                                            </div>
-                                        </div>
-                                        <div className="col-2 px-0">
-                                            <button className="btn-theme btn-block h-100"><i className="fa fa-paper-plane"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            <ChatScreen alert={this.props.alert} _exl={"al_1_g"}/>
                         </div>
                         
 
                         <div className="col-12 col-lg-3 px-0 pl-md-2 pr-md-1 mb-2">
-                            <div className="bg-white rounded p-3 mb-2">
-                            <i className="fa fa-user text-primary"></i> User Details<br/><br/>
-                                <b>Name:</b> John Doe 
-                            </div>
                             <div className="bg-white rounded p-3">
                                 <i className="fa fa-align-left text-danger"></i> Custome Message<br/><br/>
                                 <button className="btn-theme btn-block text-left">Hi!, this is {user.first_name}. how may i help you.</button>

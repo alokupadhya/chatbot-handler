@@ -2,7 +2,6 @@ import React, {Component,Fragment} from 'react';
 import {withAlert} from 'react-alert';
 import './style.css';
 import ChatbotBox from './chatbotBox';
-import UserInfoForm from './UserInfoForm';
 
 class Main extends Component {
     constructor(props) {

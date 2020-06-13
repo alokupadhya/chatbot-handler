@@ -79913,6 +79913,405 @@ var AgentRoute = function AgentRoute(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/handler/components/chatscreen.jsx":
+/*!********************************************************!*\
+  !*** ./resources/js/handler/components/chatscreen.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var chatscreen = /*#__PURE__*/function (_Component) {
+  _inherits(chatscreen, _Component);
+
+  var _super = _createSuper(chatscreen);
+
+  function chatscreen(props) {
+    var _this;
+
+    _classCallCheck(this, chatscreen);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      form: {
+        message: ""
+      },
+      validation: {
+        message: {
+          message: "",
+          status: null
+        },
+        status: false
+      },
+      chats: null,
+      user: null
+    };
+    _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
+    _this.onSubmitHandler = _this.onSubmitHandler.bind(_assertThisInitialized(_this));
+    _this.fetchChats = _this.fetchChats.bind(_assertThisInitialized(_this));
+    _this.endSession = _this.endSession.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(chatscreen, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.interval = setInterval(function () {
+        return _this2.fetchChats();
+      }, 5000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
+    key: "onChangeHandler",
+    value: function onChangeHandler(event) {
+      var form = this.state.form;
+      form[event.target.name] = event.target.value;
+      this.setState({
+        form: form
+      }, this.validationHandler(event.target.name, event.target.value));
+    }
+  }, {
+    key: "validationHandler",
+    value: function validationHandler(input, value) {
+      var validation = this.state.validation;
+
+      switch (input) {
+        case 'message':
+          if (value.length < 1) {
+            validation.message.message = "Minimum 1 char required.";
+            validation.message.status = false;
+          } else {
+            validation.message.message = "";
+            validation.message.status = true;
+          }
+
+          break;
+
+        default:
+          break;
+      }
+
+      validation.status = validation.message.status;
+      this.setState({
+        validation: validation
+      });
+    }
+  }, {
+    key: "onSubmitHandler",
+    value: function () {
+      var _onSubmitHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
+        var _this3 = this;
+
+        var _this$state, form, validation, alert, _token;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                event.preventDefault();
+                _this$state = this.state, form = _this$state.form, validation = _this$state.validation;
+                alert = this.props.alert;
+                _token = localStorage.getItem('_token');
+
+                if (!validation.status) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 7;
+                return axios({
+                  url: "/api/agent/chat/store",
+                  method: "POST",
+                  headers: {
+                    'Authorization': 'Bearer ' + _token,
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: form
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this3.fetchChats();
+                  }
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    if (error.response.data.status == 1) {
+                      _this3.bindServerError(error.response.data.msg);
+                    }
+
+                    if (error.response.data.status == 2) {
+                      alert.info(error.response.data.msg);
+                    }
+                  } else {
+                    alert.error("Unable to send message, Please refresh & try again.");
+                  }
+                });
+
+              case 7:
+                _context.next = 10;
+                break;
+
+              case 9:
+                alert.info('Please enter message!');
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onSubmitHandler(_x) {
+        return _onSubmitHandler.apply(this, arguments);
+      }
+
+      return onSubmitHandler;
+    }()
+  }, {
+    key: "fetchChats",
+    value: function () {
+      var _fetchChats = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this4 = this;
+
+        var d, alert, _token;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                d = {
+                  session_token: this.props.s_t
+                };
+                alert = this.props.alert;
+                _token = localStorage.getItem('_token');
+                _context2.next = 5;
+                return axios({
+                  url: "/api/agent/chat/get-chats",
+                  method: "POST",
+                  headers: {
+                    'Authorization': 'Bearer ' + _token,
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: d
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this4.setState({
+                      chats: r.data.records[0],
+                      user: r.data.records[1]
+                    });
+                  }
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    if (error.response.data.status == 1) {
+                      _this4.bindServerError(error.response.data.msg);
+                    }
+
+                    if (error.response.data.status == 2) {
+                      alert.info(error.response.data.msg);
+                    }
+                  } else {
+                    alert.error("Unable to messages, Please refresh & try again.");
+                  }
+                });
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchChats() {
+        return _fetchChats.apply(this, arguments);
+      }
+
+      return fetchChats;
+    }()
+  }, {
+    key: "bindServerError",
+    value: function bindServerError(errors) {
+      var validation = this.state.validation;
+
+      if (typeof errors.message != "undefined") {
+        validation.message.message = errors.email[0];
+        validation.message.status = false;
+      }
+
+      this.setState({
+        validation: validation
+      });
+    }
+  }, {
+    key: "endSession",
+    value: function () {
+      var _endSession = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _this5 = this;
+
+        var alert, _token;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                alert = this.props.alert;
+                _token = localStorage.getItem('_token');
+                _context3.next = 4;
+                return axios({
+                  url: "/api/agent/chat/end-session",
+                  method: "POST",
+                  headers: {
+                    'Authorization': 'Bearer ' + _token,
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  }
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this5.setState({
+                      chats: null,
+                      user: null
+                    });
+
+                    alert.success("Session Ended.");
+                    window.location.assign('/dashboard/agent');
+                  }
+                })["catch"](function (error) {
+                  alert.error("Unable to end session, Please refresh & try again.");
+                });
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function endSession() {
+        return _endSession.apply(this, arguments);
+      }
+
+      return endSession;
+    }()
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state2 = this.state,
+          form = _this$state2.form,
+          chats = _this$state2.chats,
+          user = _this$state2.user;
+      console.log(chats, user);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "bg-white rounded p-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mb-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-comment text-secondary"
+      }), " Chat Screen"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-sm btn-danger",
+        onClick: this.endSession
+      }, "End Session"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "p-2 chat-screen border rounded bg-light",
+        style: this.props._exl == "al_1_g" ? {
+          minHeight: '305px'
+        } : {
+          minHeight: '269px'
+        }
+      }, chats ? chats.map(function (item, index) {
+        if (item.who === 0) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            key: index,
+            className: "q w-50 mb-2 bg-white border shadow-sm rounded p-2"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
+            className: "text-muted"
+          }, "You: "), item.message);
+        } else {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            key: index,
+            className: "q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
+          }, item.message);
+        }
+      }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        className: "form",
+        onSubmit: this.onSubmitHandler
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row px-3 mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-10 pl-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-box mb-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "message",
+        value: form.message,
+        placeholder: "Type...",
+        style: {
+          marginTop: '0px'
+        },
+        onChange: this.onChangeHandler
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-2 px-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn-theme btn-block h-100"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-paper-plane"
+      })))))));
+    }
+  }]);
+
+  return chatscreen;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (chatscreen);
+
+/***/ }),
+
 /***/ "./resources/js/handler/components/dashboard/admin/chatbot-qu/AddOption.jsx":
 /*!**********************************************************************************!*\
   !*** ./resources/js/handler/components/dashboard/admin/chatbot-qu/AddOption.jsx ***!
@@ -84661,6 +85060,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_dashboard_agent_toggleWorkStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/dashboard/agent/toggleWorkStatus */ "./resources/js/handler/components/dashboard/agent/toggleWorkStatus.jsx");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../style.css */ "./resources/js/handler/views/dashboard/style.css");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_chatscreen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/chatscreen */ "./resources/js/handler/components/chatscreen.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84682,6 +85082,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -84759,43 +85160,12 @@ var Main = /*#__PURE__*/function (_Component) {
         className: "alert alert-danger"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Note : "), "Please do not move from screen if your status is ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("u", null, "online")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12 col-md-6 px-0 pl-md-1 pr-md-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "bg-white rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-comment text-secondary"
-      }), " Chat Screen", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "p-2 chat-screen border rounded bg-light",
-        style: {
-          minHeight: '305px'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "No active chat")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "form"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row px-3 mt-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-10 pl-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-box mb-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        name: "msg",
-        placeholder: "Type...",
-        style: {
-          marginTop: '0px'
-        }
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-2 px-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn-theme btn-block h-100"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-paper-plane"
-      }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_chatscreen__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        alert: this.props.alert,
+        _exl: "al_1_g"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12 col-lg-3 px-0 pl-md-2 pr-md-1 mb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "bg-white rounded p-3 mb-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-user text-primary"
-      }), " User Details", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Name:"), " John Doe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bg-white rounded p-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-align-left text-danger"
@@ -85188,7 +85558,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ "./resources/js/main/components/chatbox/style.css");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _chatbotBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chatbotBox */ "./resources/js/main/components/chatbox/chatbotBox.jsx");
-/* harmony import */ var _UserInfoForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserInfoForm */ "./resources/js/main/components/chatbox/UserInfoForm.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -85210,7 +85579,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -85647,7 +86015,8 @@ var UserInfoForm = /*#__PURE__*/function (_Component) {
       message: {
         type: null,
         text: ""
-      }
+      },
+      lock: false
     };
     _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
     _this.onSubmitHandler = _this.onSubmitHandler.bind(_assertThisInitialized(_this));
@@ -85722,14 +86091,26 @@ var UserInfoForm = /*#__PURE__*/function (_Component) {
       var _onSubmitHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
         var _this2 = this;
 
-        var form;
+        var _this$state, form, lock, alert;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 event.preventDefault();
-                form = this.state.form;
-                _context.next = 4;
+                _this$state = this.state, form = _this$state.form, lock = _this$state.lock;
+                alert = this.props.alert;
+
+                if (lock) {
+                  _context.next = 10;
+                  break;
+                }
+
+                this.setState({
+                  lock: true
+                });
+                alert.info("Please Wait, Connecting with agents");
+                _context.next = 8;
                 return axios({
                   url: "/api/vu/store",
                   headers: {
@@ -85738,19 +86119,39 @@ var UserInfoForm = /*#__PURE__*/function (_Component) {
                   },
                   method: "POST",
                   data: form
-                }).then(function (response) {
-                  alert(response.data.msg);
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    alert.info(r.data.msg);
+                    localStorage.setItem('session_token', r.data.records);
+
+                    _this2.props.action(true);
+                  }
                 })["catch"](function (error) {
                   if (error.response.status == 422) {
                     if (error.response.data.status == 1) {
                       _this2.bindServerError(error.response.data.msg);
                     }
+
+                    if (error.response.data.status == 2) {
+                      alert.error(error.response.data.msg);
+                    }
                   } else {
-                    alert("Unable to create chat session, Please refresh & try again.");
+                    alert.error("Unable to create chat session, Please refresh & try again.");
                   }
+
+                  _this2.setState({
+                    lock: false
+                  });
                 });
 
-              case 4:
+              case 8:
+                _context.next = 11;
+                break;
+
+              case 10:
+                alert.info("Please Wait...");
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -85787,9 +86188,9 @@ var UserInfoForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$state = this.state,
-          form = _this$state.form,
-          validation = _this$state.validation;
+      var _this$state2 = this.state,
+          form = _this$state2.form,
+          validation = _this$state2.validation;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         className: "form px-3 py-4",
         onSubmit: this.onSubmitHandler
@@ -85871,6 +86272,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_chatbot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/chatbot */ "./resources/js/main/services/chatbot.js");
 /* harmony import */ var _RequestQuestion__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RequestQuestion */ "./resources/js/main/components/chatbox/RequestQuestion.jsx");
+/* harmony import */ var _UserInfoForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UserInfoForm */ "./resources/js/main/components/chatbox/UserInfoForm.jsx");
+/* harmony import */ var _chatscreen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chatscreen */ "./resources/js/main/components/chatbox/chatscreen.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -85897,6 +86300,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var ChatbotBox = /*#__PURE__*/function (_Component) {
   _inherits(ChatbotBox, _Component);
 
@@ -85909,12 +86314,24 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      node: null,
-      nodeOptions: null,
-      chat: null
+      cb: {
+        node: null,
+        nodeOptions: null,
+        chat: null
+      },
+      c_ag: {
+        flag: false
+      },
+      c_ag_s: {
+        flag: false,
+        s_token: null
+      }
     };
     _this.onClickNodeOption = _this.onClickNodeOption.bind(_assertThisInitialized(_this));
     _this.startBot = _this.startBot.bind(_assertThisInitialized(_this));
+    _this.requestAgent = _this.requestAgent.bind(_assertThisInitialized(_this));
+    _this.agentChatHandler = _this.agentChatHandler.bind(_assertThisInitialized(_this));
+    _this.handlerChild = _this.handlerChild.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -85924,14 +86341,26 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
       this.startBot();
     }
   }, {
+    key: "requestAgent",
+    value: function requestAgent() {
+      var c_ag = this.state.c_ag;
+      c_ag.flag = true;
+      this.setState({
+        c_ag: c_ag
+      });
+    }
+  }, {
     key: "startBot",
     value: function startBot() {
       var _this2 = this;
 
       _services_chatbot__WEBPACK_IMPORTED_MODULE_1__["default"].getRootNode().then(function (data) {
+        var cb = _this2.state.cb;
+        cb.node = data[0];
+        cb.nodeOptions = data[1];
+
         _this2.setState({
-          node: data[0],
-          nodeOptions: data[1]
+          cb: cb
         });
       });
       localStorage.setItem('Chats', JSON.stringify([]));
@@ -85941,19 +86370,43 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
     value: function onClickNodeOption(id, option) {
       var _this3 = this;
 
-      var node = this.state.node;
+      var cb = this.state.cb;
       var chats = JSON.parse(localStorage.getItem('Chats')) || [];
       var st = {
-        qa: node.qa,
+        qa: cb.node.qa,
         an: option
       };
       chats.push(st);
       localStorage.setItem('Chats', JSON.stringify(chats));
       _services_chatbot__WEBPACK_IMPORTED_MODULE_1__["default"].getNode(id).then(function (data) {
+        cb.node = data[0];
+        cb.nodeOptions = data[1];
+
         _this3.setState({
-          node: data[0],
-          nodeOptions: data[1]
+          cb: cb
         });
+      });
+    }
+  }, {
+    key: "agentChatHandler",
+    value: function agentChatHandler(flag) {
+      var _this$state = this.state,
+          c_ag = _this$state.c_ag,
+          c_ag_s = _this$state.c_ag_s;
+      c_ag.flag = false;
+      c_ag_s.flag = flag;
+      this.setState({
+        c_ag: c_ag,
+        c_ag_s: c_ag_s
+      });
+    }
+  }, {
+    key: "handlerChild",
+    value: function handlerChild(flag) {
+      var c_ag_s = this.state.c_ag_s;
+      c_ag_s.flag = flag;
+      this.setState({
+        c_ag_s: c_ag_s
       });
     }
   }, {
@@ -85961,11 +86414,25 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      var _this$state = this.state,
-          node = _this$state.node,
-          nodeOptions = _this$state.nodeOptions;
+      var _this$state2 = this.state,
+          cb = _this$state2.cb,
+          c_ag = _this$state2.c_ag,
+          c_ag_s = _this$state2.c_ag_s;
 
-      if (node == null || nodeOptions == null) {
+      var _token = localStorage.getItem('session_token');
+
+      if (c_ag_s.flag || _token != null) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chatscreen__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          s_t: _token,
+          action: this.handlerChild,
+          alert: this.props.alert
+        }));
+      } else if (c_ag.flag) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserInfoForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          action: this.agentChatHandler,
+          alert: this.props.alert
+        }));
+      } else if (cb.node == null || cb.nodeOptions == null) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-screen bg-light m-2 rounded p-2",
           style: {
@@ -85997,7 +86464,7 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
         className: "q w-75 bg-white border shadow-sm rounded mb-2 p-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "mb-1"
-      }, node.qa), node.type == 0 ? nodeOptions.map(function (item, index) {
+      }, cb.node.qa), cb.node.type == 0 ? cb.nodeOptions.map(function (item, index) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           key: index,
           onClick: _this4.onClickNodeOption.bind(_this4, item.id, item.option),
@@ -86012,7 +86479,8 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-4 pl-1 pr-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-block btn-sm btn-success"
+        className: "btn btn-block btn-sm btn-success",
+        onClick: this.requestAgent
       }, "Chat with Agent")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-3 pl-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -86026,6 +86494,411 @@ var ChatbotBox = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (ChatbotBox);
+
+/***/ }),
+
+/***/ "./resources/js/main/components/chatbox/chatscreen.jsx":
+/*!*************************************************************!*\
+  !*** ./resources/js/main/components/chatbox/chatscreen.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var chatscreen = /*#__PURE__*/function (_Component) {
+  _inherits(chatscreen, _Component);
+
+  var _super = _createSuper(chatscreen);
+
+  function chatscreen(props) {
+    var _this;
+
+    _classCallCheck(this, chatscreen);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      form: {
+        message: "",
+        session_token: null
+      },
+      validation: {
+        message: {
+          message: "",
+          status: null
+        },
+        status: false
+      },
+      chats: null,
+      agent: null
+    };
+    _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
+    _this.onSubmitHandler = _this.onSubmitHandler.bind(_assertThisInitialized(_this));
+    _this.fetchChats = _this.fetchChats.bind(_assertThisInitialized(_this));
+    _this.endSession = _this.endSession.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(chatscreen, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.interval = setInterval(function () {
+        return _this2.fetchChats();
+      }, 5000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
+    key: "onChangeHandler",
+    value: function onChangeHandler(event) {
+      var form = this.state.form;
+      form[event.target.name] = event.target.value;
+      this.setState({
+        form: form
+      }, this.validationHandler(event.target.name, event.target.value));
+    }
+  }, {
+    key: "validationHandler",
+    value: function validationHandler(input, value) {
+      var validation = this.state.validation;
+
+      switch (input) {
+        case 'message':
+          if (value.length < 1) {
+            validation.message.message = "Minimum 1 char required.";
+            validation.message.status = false;
+          } else {
+            validation.message.message = "";
+            validation.message.status = true;
+          }
+
+          break;
+
+        default:
+          break;
+      }
+
+      validation.status = validation.message.status;
+      this.setState({
+        validation: validation
+      });
+    }
+  }, {
+    key: "onSubmitHandler",
+    value: function () {
+      var _onSubmitHandler = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(event) {
+        var _this3 = this;
+
+        var _this$state, form, validation, alert;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                event.preventDefault();
+                _this$state = this.state, form = _this$state.form, validation = _this$state.validation;
+                form.session_token = localStorage.getItem('session_token');
+                alert = this.props.alert;
+
+                if (!validation.status) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 7;
+                return axios({
+                  url: "/api/chat/store",
+                  method: "POST",
+                  headers: {
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: form
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this3.fetchChats();
+                  }
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    if (error.response.data.status == 1) {
+                      _this3.bindServerError(error.response.data.msg);
+                    }
+
+                    if (error.response.data.status == 2) {
+                      localStorage.removeItem('session_token');
+
+                      _this3.props.action(false);
+
+                      alert.info(error.response.data.msg);
+                    }
+                  } else {
+                    alert.error("Unable to send message, Please refresh & try again.");
+                  }
+                });
+
+              case 7:
+                _context.next = 10;
+                break;
+
+              case 9:
+                alert.info('Please enter message!');
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onSubmitHandler(_x) {
+        return _onSubmitHandler.apply(this, arguments);
+      }
+
+      return onSubmitHandler;
+    }()
+  }, {
+    key: "fetchChats",
+    value: function () {
+      var _fetchChats = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this4 = this;
+
+        var d, alert;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                d = {
+                  session_token: this.props.s_t
+                };
+                alert = this.props.alert;
+                _context2.next = 4;
+                return axios({
+                  url: "/api/chat/get-chats",
+                  method: "POST",
+                  headers: {
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: d
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this4.setState({
+                      chats: r.data.records[0],
+                      agent: r.data.records[1]
+                    });
+                  }
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    if (error.response.data.status == 1) {
+                      _this4.bindServerError(error.response.data.msg);
+                    }
+
+                    if (error.response.data.status == 2) {
+                      localStorage.removeItem('session_token');
+
+                      _this4.props.action(false);
+
+                      alert.info(error.response.data.msg);
+                    }
+                  } else {
+                    alert.error("Unable to messages, Please refresh & try again.");
+                  }
+                });
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchChats() {
+        return _fetchChats.apply(this, arguments);
+      }
+
+      return fetchChats;
+    }()
+  }, {
+    key: "bindServerError",
+    value: function bindServerError(errors) {
+      var validation = this.state.validation;
+
+      if (typeof errors.message != "undefined") {
+        validation.message.message = errors.email[0];
+        validation.message.status = false;
+      }
+
+      this.setState({
+        validation: validation
+      });
+    }
+  }, {
+    key: "endSession",
+    value: function () {
+      var _endSession = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _this5 = this;
+
+        var alert, d;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                alert = this.props.alert;
+                d = {
+                  session_token: this.props.s_t
+                };
+                _context3.next = 4;
+                return axios({
+                  url: "/api/chat/end-session",
+                  method: "POST",
+                  headers: {
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                  data: d
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    _this5.setState({
+                      chats: null,
+                      user: null
+                    });
+
+                    alert.success("Session Ended.");
+                    window.location.assign('/');
+                  }
+                })["catch"](function (error) {
+                  alert.error("Unable to end session, Please refresh & try again.");
+                });
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function endSession() {
+        return _endSession.apply(this, arguments);
+      }
+
+      return endSession;
+    }()
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state2 = this.state,
+          form = _this$state2.form,
+          chats = _this$state2.chats,
+          agent = _this$state2.agent;
+      console.log(chats, agent);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "bg-white rounded p-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mb-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-comment text-secondary"
+      }), " Chat Screen"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-sm btn-danger",
+        onClick: this.endSession
+      }, "End Session"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "p-2 chat-screen border rounded bg-light",
+        style: this.props._exl == "al_1_g" ? {
+          minHeight: '305px'
+        } : {
+          minHeight: '269px'
+        }
+      }, chats ? chats.map(function (item, index) {
+        if (item.who === 0) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            key: index,
+            className: "q w-50 mb-2 bg-white border shadow-sm rounded p-2"
+          }, item.message);
+        } else {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            key: index,
+            className: "q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
+            className: "text-muted"
+          }, "You: "), item.message);
+        }
+      }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        className: "form",
+        onSubmit: this.onSubmitHandler
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row px-3 mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-10 pl-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-box mb-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "message",
+        value: form.message,
+        placeholder: "Type...",
+        style: {
+          marginTop: '0px'
+        },
+        onChange: this.onChangeHandler
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-2 px-0"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn-theme btn-block h-100"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-paper-plane"
+      })))))));
+    }
+  }]);
+
+  return chatscreen;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (chatscreen);
 
 /***/ }),
 
