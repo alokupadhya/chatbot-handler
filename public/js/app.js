@@ -80259,9 +80259,11 @@ var chatscreen = /*#__PURE__*/function (_Component) {
       }, "End Session"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "p-2 chat-screen border rounded bg-light",
         style: this.props._exl == "al_1_g" ? {
-          minHeight: '305px'
+          minHeight: '305px',
+          maxHeight: '305px'
         } : {
-          minHeight: '269px'
+          minHeight: '269px',
+          maxHeight: '269px'
         }
       }, chats ? chats.map(function (item, index) {
         if (item.who === 0) {
@@ -86849,9 +86851,11 @@ var chatscreen = /*#__PURE__*/function (_Component) {
       }, "End Session"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "p-2 chat-screen border rounded bg-light",
         style: this.props._exl == "al_1_g" ? {
-          minHeight: '305px'
+          minHeight: '305px',
+          maxHeight: '305px'
         } : {
-          minHeight: '269px'
+          minHeight: '269px',
+          maxHeight: '269px'
         }
       }, chats ? chats.map(function (item, index) {
         if (item.who === 0) {

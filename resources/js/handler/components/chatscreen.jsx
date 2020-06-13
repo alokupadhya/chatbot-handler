@@ -182,7 +182,7 @@ class chatscreen extends Component {
                             <button className="btn btn-sm btn-danger" onClick={this.endSession}>End Session</button>
                         </div>
                     </div>                    
-                    <div className="p-2 chat-screen border rounded bg-light" style={this.props._exl == "al_1_g"?{minHeight:'305px'}:{minHeight:'269px'}}>
+                    <div className="p-2 chat-screen border rounded bg-light" style={this.props._exl == "al_1_g"?{minHeight:'305px',maxHeight:'305px'}:{minHeight:'269px',maxHeight:'269px'}}>
                     {
                         (chats)?
                             chats.map(
