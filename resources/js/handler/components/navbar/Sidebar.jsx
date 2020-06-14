@@ -27,11 +27,11 @@ class Sidebar extends Component{
                         </Link>
 
                         {/* <Link to="/dashboard/primary-settings/session" onClick={this.closeSideBar}> */}
-                        <li>
+                        {/* <li>
                                 <div>
                                 <i className="fa fa-tv"></i>
                                 </div> Monitor Agents
-                            </li>
+                            </li> */}
                         {/* </Link> */}
 
                     </ul>

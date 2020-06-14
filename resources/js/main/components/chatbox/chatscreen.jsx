@@ -25,6 +25,7 @@ class chatscreen extends Component {
     }
 
     componentDidMount(){
+        this.scrollToBottom();
         this.interval = setInterval(() => this.fetchChats(), 5000);
     }
 
@@ -75,6 +76,8 @@ class chatscreen extends Component {
             }).then((r)=>{
                 if(r.status == 200){
                     this.fetchChats();
+                    form.message = "";
+                    this.setState({form});
                 }
             }).catch((error)=>{
                 if(error.response.status == 422){
@@ -166,6 +169,14 @@ class chatscreen extends Component {
             alert.error("Unable to end session, Please refresh & try again.");
         });
     }
+
+    scrollToBottom(){
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidUpdate() {
+    this.scrollToBottom();
+    }
     
     render() {
         let {form,chats,agent} = this.state; 
@@ -182,23 +193,23 @@ class chatscreen extends Component {
                             <button className="btn btn-sm btn-danger" onClick={this.endSession}>End Session</button>
                         </div>
                     </div>                    
-                    <div className="p-2 chat-screen border rounded bg-light" style={this.props._exl == "al_1_g"?{minHeight:'305px',maxHeight:'305px'}:{minHeight:'269px',maxHeight:'269px'}}>
+                    <div className="p-2 chat-screen border rounded bg-light" style={{minHeight:'269px',maxHeight:'269px'}}>
                     {
                         (chats)?
                             chats.map(
                                 (item,index)=>{
                                     if(item.who===0){
                                         return(
-                                            <div key={index} className="q w-50 mb-2 bg-white border shadow-sm rounded p-2">
-                                                {item.message}
+                                            <div key={index} className="q w-75 mb-2 bg-white border shadow-sm rounded p-2">
+                                                <b className="text-muted">Agent: </b>{item.message}
                                             </div>
                                         )
                                     }
                                         
                                     else{
                                         return(
-                                            <div key={index} className="q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2">
-                                                <b className="text-muted">You: </b>{item.message}
+                                            <div key={index} className="q w-75 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2">
+                                                <b className="text-light">You: </b>{item.message}
                                             </div>
                                         )
                                     }
@@ -206,6 +217,9 @@ class chatscreen extends Component {
                             )
                         :null
                     }
+                    <div style={{ float:"left", clear: "both" }}
+                        ref={(el) => { this.messagesEnd = el; }}>
+                    </div>
                     </div>
                     <form className="form" onSubmit={this.onSubmitHandler}>
                         <div className="row px-3 mt-2">

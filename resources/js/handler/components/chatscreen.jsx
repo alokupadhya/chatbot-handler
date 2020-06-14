@@ -14,6 +14,7 @@ class chatscreen extends Component {
                 },
                 status:false,
             },
+            chat_status:false,
             chats:null,
             user:null,
         }
@@ -24,6 +25,7 @@ class chatscreen extends Component {
     }
 
     componentDidMount(){
+        this.scrollToBottom();
         this.interval = setInterval(() => this.fetchChats(), 5000);
     }
 
@@ -76,6 +78,8 @@ class chatscreen extends Component {
             }).then((r)=>{
                 if(r.status == 200){
                     this.fetchChats();
+                    form.message = "";
+                    this.setState({form});
                 }
             }).catch((error)=>{
                 if(error.response.status == 422){
@@ -100,7 +104,8 @@ class chatscreen extends Component {
         let d = {session_token : this.props.s_t};
         let alert = this.props.alert;
         let _token = localStorage.getItem('_token');
-
+        
+        let {chat_status} = this.state;
         await axios({
             url:"/api/agent/chat/get-chats",
             method:"POST",
@@ -116,6 +121,12 @@ class chatscreen extends Component {
                     chats:r.data.records[0],
                     user:r.data.records[1]
                 });
+                if(!chat_status){
+                    this.setState({
+                        chat_status:true
+                    });
+                    this.props.action(r.data.records[1]);
+                }
             }
         }).catch((error)=>{
             if(error.response.status == 422){
@@ -123,7 +134,15 @@ class chatscreen extends Component {
                     this.bindServerError(error.response.data.msg);
                 }
                 if(error.response.data.status == 2){
-                    alert.info(error.response.data.msg);
+                    if(chat_status){
+                        alert.success("Session Ended.");
+                        this.setState({
+                            chats:"",
+                            user:"",
+                            chat_status:false
+                        });
+                        window.location.assign('/dashboard/agent');
+                    }
                 }
             }
             else{
@@ -160,11 +179,19 @@ class chatscreen extends Component {
                     user:null,
                 })
                 alert.success("Session Ended.");
-                window.location.assign('/dashboard/agent');
+                // window.location.assign('/dashboard/agent');
             }
         }).catch((error)=>{
             alert.error("Unable to end session, Please refresh & try again.");
         });
+    }
+
+    scrollToBottom () {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
     }
     
     render() {
@@ -183,29 +210,31 @@ class chatscreen extends Component {
                         </div>
                     </div>                    
                     <div className="p-2 chat-screen border rounded bg-light" style={this.props._exl == "al_1_g"?{minHeight:'305px',maxHeight:'305px'}:{minHeight:'269px',maxHeight:'269px'}}>
-                    {
-                        (chats)?
-                            chats.map(
-                                (item,index)=>{
-                                    if(item.who===0){
-                                        return(
-                                            <div key={index} className="q w-50 mb-2 bg-white border shadow-sm rounded p-2">
-                                                <b className="text-muted">You: </b>{item.message}
-                                            </div>
-                                        )
+                        {
+                            (chats)?
+                                chats.map(
+                                    (item,index)=>{
+                                        if(item.who===0){
+                                            return(
+                                                <div key={index} className="q w-75 mb-2 bg-white border shadow-sm rounded p-2">
+                                                    <b className="text-muted">You: </b>{item.message}
+                                                </div>
+                                            )
+                                        }
+                                            
+                                        else{
+                                            return(
+                                                <div key={index} className="q w-75 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2">
+                                                    <b className="text-light">User: </b>{item.message}
+                                                </div>
+                                            )
+                                        }
                                     }
-                                        
-                                    else{
-                                        return(
-                                            <div key={index} className="q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2">
-                                                {item.message}
-                                            </div>
-                                        )
-                                    }
-                                }
-                            )
-                        :null
-                    }
+                                )
+                            :null
+                        }
+                        <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}>
+                        </div>
                     </div>
                     <form className="form" onSubmit={this.onSubmitHandler}>
                         <div className="row px-3 mt-2">

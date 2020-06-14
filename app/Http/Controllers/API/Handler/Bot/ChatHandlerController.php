@@ -94,6 +94,10 @@ class ChatHandlerController extends Controller
                 return response($response, RESPONSE_SUCCESS);
             }
         }
+        if($agent->work_status_id == 3){
+            $agent->update(['work_status_id'=>2]);
+            DB::commit();
+        }
         $response = ['msg' => 'Session not found.', 'rec' =>$ses, 'status' => 2];
         return response()->json($response, RESPONSE_UNPROCESSABLE_ENTITY);
     }

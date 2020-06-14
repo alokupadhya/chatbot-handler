@@ -79978,6 +79978,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
         },
         status: false
       },
+      chat_status: false,
       chats: null,
       user: null
     };
@@ -79993,6 +79994,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.scrollToBottom();
       this.interval = setInterval(function () {
         return _this2.fetchChats();
       }, 5000);
@@ -80072,6 +80074,12 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                 }).then(function (r) {
                   if (r.status == 200) {
                     _this3.fetchChats();
+
+                    form.message = "";
+
+                    _this3.setState({
+                      form: form
+                    });
                   }
                 })["catch"](function (error) {
                   if (error.response.status == 422) {
@@ -80114,7 +80122,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
       var _fetchChats = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var _this4 = this;
 
-        var d, alert, _token;
+        var d, alert, _token, chat_status;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -80125,7 +80133,8 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                 };
                 alert = this.props.alert;
                 _token = localStorage.getItem('_token');
-                _context2.next = 5;
+                chat_status = this.state.chat_status;
+                _context2.next = 6;
                 return axios({
                   url: "/api/agent/chat/get-chats",
                   method: "POST",
@@ -80141,6 +80150,14 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                       chats: r.data.records[0],
                       user: r.data.records[1]
                     });
+
+                    if (!chat_status) {
+                      _this4.setState({
+                        chat_status: true
+                      });
+
+                      _this4.props.action(r.data.records[1]);
+                    }
                   }
                 })["catch"](function (error) {
                   if (error.response.status == 422) {
@@ -80149,14 +80166,24 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                     }
 
                     if (error.response.data.status == 2) {
-                      alert.info(error.response.data.msg);
+                      if (chat_status) {
+                        alert.success("Session Ended.");
+
+                        _this4.setState({
+                          chats: "",
+                          user: "",
+                          chat_status: false
+                        });
+
+                        window.location.assign('/dashboard/agent');
+                      }
                     }
                   } else {
                     alert.error("Unable to messages, Please refresh & try again.");
                   }
                 });
 
-              case 5:
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -80214,8 +80241,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                       user: null
                     });
 
-                    alert.success("Session Ended.");
-                    window.location.assign('/dashboard/agent');
+                    alert.success("Session Ended."); // window.location.assign('/dashboard/agent');
                   }
                 })["catch"](function (error) {
                   alert.error("Unable to end session, Please refresh & try again.");
@@ -80236,8 +80262,22 @@ var chatscreen = /*#__PURE__*/function (_Component) {
       return endSession;
     }()
   }, {
+    key: "scrollToBottom",
+    value: function scrollToBottom() {
+      this.messagesEnd.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.scrollToBottom();
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
       var _this$state2 = this.state,
           form = _this$state2.form,
           chats = _this$state2.chats,
@@ -80269,17 +80309,27 @@ var chatscreen = /*#__PURE__*/function (_Component) {
         if (item.who === 0) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             key: index,
-            className: "q w-50 mb-2 bg-white border shadow-sm rounded p-2"
+            className: "q w-75 mb-2 bg-white border shadow-sm rounded p-2"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
             className: "text-muted"
           }, "You: "), item.message);
         } else {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             key: index,
-            className: "q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
-          }, item.message);
+            className: "q w-75 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
+            className: "text-light"
+          }, "User: "), item.message);
         }
-      }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          "float": "left",
+          clear: "both"
+        },
+        ref: function ref(el) {
+          _this6.messagesEnd = el;
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         className: "form",
         onSubmit: this.onSubmitHandler
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -82668,172 +82718,6 @@ var RequestedQU = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/js/handler/components/dashboard/agent/toggleWorkStatus.jsx":
-/*!******************************************************************************!*\
-  !*** ./resources/js/handler/components/dashboard/agent/toggleWorkStatus.jsx ***!
-  \******************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-var Main = /*#__PURE__*/function (_Component) {
-  _inherits(Main, _Component);
-
-  var _super = _createSuper(Main);
-
-  function Main(props) {
-    var _this;
-
-    _classCallCheck(this, Main);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      user: {}
-    };
-    _this.onClickToggle = _this.onClickToggle.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(Main, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var user = this.state.user;
-      user = JSON.parse(localStorage.getItem('user'));
-      this.setState({
-        user: user
-      });
-    }
-  }, {
-    key: "onClickToggle",
-    value: function () {
-      var _onClickToggle = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _this2 = this;
-
-        var user, alert, _token;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                user = this.state.user;
-                alert = this.props.alert;
-
-                if (!(user.work_status_id === 1 || user.work_status_id === 2)) {
-                  _context.next = 8;
-                  break;
-                }
-
-                _token = localStorage.getItem('_token');
-                _context.next = 6;
-                return axios({
-                  url: "/api/agent/update-work-status",
-                  method: "POST",
-                  headers: {
-                    'Authorization': 'Bearer ' + _token,
-                    'ContentType': 'application/json',
-                    'Accept': 'application/json'
-                  }
-                }).then(function (r) {
-                  if (r.status == 200) {
-                    alert.success(r.data.msg);
-                    user.work_status_id = user.work_status_id === 1 ? 2 : 1;
-
-                    _this2.setState({
-                      user: user
-                    });
-                  }
-                })["catch"](function (error) {
-                  alert.error("Unable to update status, Please refresh & try again.");
-                });
-
-              case 6:
-                _context.next = 9;
-                break;
-
-              case 8:
-                alert.error("You can't update status.");
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function onClickToggle() {
-        return _onClickToggle.apply(this, arguments);
-      }
-
-      return onClickToggle;
-    }()
-  }, {
-    key: "render",
-    value: function render() {
-      var user = this.state.user;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
-        className: "mb-0 pt-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", null, user.work_status_id == 1 ? "Offline" : user.work_status_id == 2 ? "Online" : "Idle"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-6 text-right"
-      }, user.work_status_id == 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fa fa-toggle-off text-danger fa-2x btn",
-        onClick: this.onClickToggle
-      }) : user.work_status_id == 2 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fa fa-toggle-on text-success fa-2x btn",
-        onClick: this.onClickToggle
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fa fa-toggle-on text-muted fa-2x btn",
-        onClick: this.onClickToggle
-      }))));
-    }
-  }]);
-
-  return Main;
-}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (Main);
-
-/***/ }),
-
 /***/ "./resources/js/handler/components/dashboard/comman/form/UpdatePassword.jsx":
 /*!**********************************************************************************!*\
   !*** ./resources/js/handler/components/dashboard/comman/form/UpdatePassword.jsx ***!
@@ -84000,9 +83884,7 @@ var Sidebar = /*#__PURE__*/function (_Component) {
         onClick: this.closeSideBar
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-user-tie"
-      })), " Manage Agents")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-tv"
-      })), " Monitor Agents")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Chatbot Questions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      })), " Manage Agents"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Chatbot Questions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/dashboard/admin/manage-chatbot-qa/root",
         onClick: this.closeSideBar
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -84211,6 +84093,79 @@ var Auth = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (new Auth());
+
+/***/ }),
+
+/***/ "./resources/js/handler/services/chat.js":
+/*!***********************************************!*\
+  !*** ./resources/js/handler/services/chat.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Chats = /*#__PURE__*/function () {
+  function Chats() {
+    _classCallCheck(this, Chats);
+  }
+
+  _createClass(Chats, [{
+    key: "getCountsOnAdmin",
+    value: function getCountsOnAdmin() {
+      var _token = localStorage.getItem('_token');
+
+      return Promise.resolve(axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/api/chat-counts',
+        headers: {
+          'Authorization': 'Bearer ' + _token,
+          'ContentType': 'application/json',
+          'Accept': 'application/json'
+        },
+        method: 'GET'
+      }).then(function (r) {
+        if (r.status == 200) return r.data.records;
+        return [];
+      })["catch"](function (e) {
+        return false;
+      }));
+    }
+  }, {
+    key: "getCountsOnAgent",
+    value: function getCountsOnAgent() {
+      var _token = localStorage.getItem('_token');
+
+      return Promise.resolve(axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/api/agent/chat/chat-counts',
+        headers: {
+          'Authorization': 'Bearer ' + _token,
+          'ContentType': 'application/json',
+          'Accept': 'application/json'
+        },
+        method: 'GET'
+      }).then(function (r) {
+        if (r.status == 200) return r.data.records;
+        return [];
+      })["catch"](function (e) {
+        return false;
+      }));
+    }
+  }]);
+
+  return Chats;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (new Chats());
 
 /***/ }),
 
@@ -84595,7 +84550,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_dashboard_admin_requested_qu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/dashboard/admin/requested-qu */ "./resources/js/handler/components/dashboard/admin/requested-qu.jsx");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style.css */ "./resources/js/handler/views/dashboard/style.css");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-alert */ "./node_modules/react-alert/dist/esm/react-alert.js");
+/* harmony import */ var _services_chat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/chat */ "./resources/js/handler/services/chat.js");
+/* harmony import */ var react_alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-alert */ "./node_modules/react-alert/dist/esm/react-alert.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84623,20 +84579,81 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Main = /*#__PURE__*/function (_Component) {
   _inherits(Main, _Component);
 
   var _super = _createSuper(Main);
 
   function Main(props) {
+    var _this;
+
     _classCallCheck(this, Main);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      chats: {
+        today: 0,
+        all: 0
+      },
+      r_q: {
+        today: 0,
+        all: 0
+      },
+      active: {
+        livechats: 0,
+        endedchats: 0
+      },
+      agents: {
+        online: 0,
+        offline: 0,
+        busy: 0
+      }
+    };
+    return _this;
   }
 
   _createClass(Main, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.interval = setInterval(function () {
+        _services_chat__WEBPACK_IMPORTED_MODULE_3__["default"].getCountsOnAdmin().then(function (data) {
+          var _this2$state = _this2.state,
+              chats = _this2$state.chats,
+              r_q = _this2$state.r_q,
+              active = _this2$state.active,
+              agents = _this2$state.agents;
+          chats.today = data[0];
+          chats.all = data[1];
+          r_q.today = data[2];
+          r_q.all = data[3];
+          active.livechats = data[4];
+          active.endedchats = data[5];
+          agents.online = data[6];
+          agents.offline = data[7];
+          agents.busy = data[8];
+
+          _this2.setState({
+            chats: chats
+          });
+        });
+      }, 5000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this$state = this.state,
+          chats = _this$state.chats,
+          r_q = _this$state.r_q,
+          active = _this$state.active,
+          agents = _this$state.agents;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84664,11 +84681,11 @@ var Main = /*#__PURE__*/function (_Component) {
         className: "col-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "text-secondary"
-      }, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, chats.today)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "text-secondary"
-      }, "In 7 Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "In 7 Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, chats.all)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bg-light rounded p-3 mb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-file-alt text-danger"
@@ -84678,27 +84695,45 @@ var Main = /*#__PURE__*/function (_Component) {
         className: "col-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "text-secondary"
-      }, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, r_q.today)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "text-secondary"
-      }, "In 7 Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "In 7 Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, r_q.all)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bg-light rounded p-3 mb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-chart-bar text-primary"
-      }), " Currently active", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " Stats", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Chats")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Live chats")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 text-right"
-      }, "0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, active.livechats)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Agents")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Ended Chats")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 text-right"
-      }, "0")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, active.endedchats)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Agent Online")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, agents.online)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Agent Offline")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, agents.offline)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Agent On Chat")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, agents.busy)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12 col-md-8 px-0 pl-md-2 pr-md-1 mb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bg-light rounded p-3 mb-2"
@@ -84714,7 +84749,7 @@ var Main = /*#__PURE__*/function (_Component) {
   return Main;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_alert__WEBPACK_IMPORTED_MODULE_3__["withAlert"])()(Main));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_alert__WEBPACK_IMPORTED_MODULE_4__["withAlert"])()(Main));
 
 /***/ }),
 
@@ -85056,14 +85091,23 @@ var Index = /*#__PURE__*/function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-alert */ "./node_modules/react-alert/dist/esm/react-alert.js");
-/* harmony import */ var _components_dashboard_agent_toggleWorkStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/dashboard/agent/toggleWorkStatus */ "./resources/js/handler/components/dashboard/agent/toggleWorkStatus.jsx");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-alert */ "./node_modules/react-alert/dist/esm/react-alert.js");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../style.css */ "./resources/js/handler/views/dashboard/style.css");
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_chatscreen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/chatscreen */ "./resources/js/handler/components/chatscreen.jsx");
+/* harmony import */ var _services_user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/user */ "./resources/js/handler/services/user.js");
+/* harmony import */ var _services_chat__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/chat */ "./resources/js/handler/services/chat.js");
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -85091,6 +85135,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Main = /*#__PURE__*/function (_Component) {
   _inherits(Main, _Component);
 
@@ -85103,86 +85148,183 @@ var Main = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      user: {}
+      user: {},
+      c_user: null,
+      total_chats: 0
     };
+    _this.chatScreenHandler = _this.chatScreenHandler.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Main, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
       var user = this.state.user;
       user = JSON.parse(localStorage.getItem('user'));
       this.setState({
         user: user
       });
+      _services_chat__WEBPACK_IMPORTED_MODULE_6__["default"].getCountsOnAgent().then(function (d) {
+        _this2.setState({
+          total_chats: d[0]
+        });
+      });
     }
+  }, {
+    key: "chatScreenHandler",
+    value: function chatScreenHandler(u) {
+      var _this3 = this;
+
+      _services_user__WEBPACK_IMPORTED_MODULE_5__["default"].getUserDetails().then(function (data) {
+        _this3.setState({
+          user: data,
+          c_user: u
+        });
+      });
+    }
+  }, {
+    key: "onClickToggle",
+    value: function () {
+      var _onClickToggle = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this4 = this;
+
+        var user, alert, _token;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                user = this.state.user;
+                alert = this.props.alert;
+
+                if (!(user.work_status_id === 1 || user.work_status_id === 2)) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _token = localStorage.getItem('_token');
+                _context.next = 6;
+                return axios({
+                  url: "/api/agent/update-work-status",
+                  method: "POST",
+                  headers: {
+                    'Authorization': 'Bearer ' + _token,
+                    'ContentType': 'application/json',
+                    'Accept': 'application/json'
+                  }
+                }).then(function (r) {
+                  if (r.status == 200) {
+                    alert.success(r.data.msg);
+                    user.work_status_id = user.work_status_id === 1 ? 2 : 1;
+
+                    _this4.setState({
+                      user: user
+                    });
+                  }
+                })["catch"](function (error) {
+                  alert.error("Unable to update status, Please refresh & try again.");
+                });
+
+              case 6:
+                _context.next = 9;
+                break;
+
+              case 8:
+                alert.error("You can't update status.");
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onClickToggle() {
+        return _onClickToggle.apply(this, arguments);
+      }
+
+      return onClickToggle;
+    }()
   }, {
     key: "render",
     value: function render() {
-      var user = this.state.user;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var _this$state = this.state,
+          user = _this$state.user,
+          c_user = _this$state.c_user,
+          total_chats = _this$state.total_chats;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid box"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-12 p-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("nav", {
         "aria-label": "breadcrumb"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ol", {
         className: "breadcrumb bg-white"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "breadcrumb-item active",
         "aria-current": "page"
-      }, "Agent Dashboard"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Agent Dashboard"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-12 col-md-3 px-0 pl-md-1 pr-md-1 mb-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "bg-white mb-2 rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-file-alt text-danger"
-      }), " Chats Attend", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " Chats Attend", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("small", {
         className: "text-secondary"
-      }, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "text-secondary"
-      }, "In 7 Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "0")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Total"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", null, total_chats)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: " bg-white rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-chart-bar text-primary"
-      }), " Your Status", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_dashboard_agent_toggleWorkStatus__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        alert: this.props.alert
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " Your Status", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
+        className: "mb-0 pt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", null, user.work_status_id == 1 ? "Offline" : user.work_status_id == 2 ? "Online" : "Idle"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, user.work_status_id == 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-toggle-off text-danger fa-2x btn",
+        onClick: this.onClickToggle
+      }) : user.work_status_id == 2 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-toggle-on text-success fa-2x btn",
+        onClick: this.onClickToggle
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-toggle-on text-muted fa-2x btn",
+        onClick: this.onClickToggle
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "alert alert-danger"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Note : "), "Please do not move from screen if your status is ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("u", null, "online")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", null, "Note : "), "Please do not move from screen if your status is ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("u", null, "online")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-12 col-md-6 px-0 pl-md-1 pr-md-0"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_chatscreen__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_chatscreen__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        action: this.chatScreenHandler,
         alert: this.props.alert,
         _exl: "al_1_g"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-12 col-lg-3 px-0 pl-md-2 pr-md-1 mb-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "bg-white rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-align-left text-danger"
-      }), " Custome Message", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn-theme btn-block text-left"
-      }, "Hi!, this is ", user.first_name, ". how may i help you."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn-theme btn-block text-left"
-      }, "This session have been ended because of late response."))))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-user text-primary"
+      }), " User Details", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), c_user == null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", null, "No active session") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", null, "Name: ", c_user))))));
     }
   }]);
 
   return Main;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_alert__WEBPACK_IMPORTED_MODULE_1__["withAlert"])()(Main));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_alert__WEBPACK_IMPORTED_MODULE_2__["withAlert"])()(Main));
 
 /***/ }),
 
@@ -86580,6 +86722,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.scrollToBottom();
       this.interval = setInterval(function () {
         return _this2.fetchChats();
       }, 5000);
@@ -86658,6 +86801,12 @@ var chatscreen = /*#__PURE__*/function (_Component) {
                 }).then(function (r) {
                   if (r.status == 200) {
                     _this3.fetchChats();
+
+                    form.message = "";
+
+                    _this3.setState({
+                      form: form
+                    });
                   }
                 })["catch"](function (error) {
                   if (error.response.status == 422) {
@@ -86828,8 +86977,22 @@ var chatscreen = /*#__PURE__*/function (_Component) {
       return endSession;
     }()
   }, {
+    key: "scrollToBottom",
+    value: function scrollToBottom() {
+      this.messagesEnd.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.scrollToBottom();
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
       var _this$state2 = this.state,
           form = _this$state2.form,
           chats = _this$state2.chats,
@@ -86850,10 +87013,7 @@ var chatscreen = /*#__PURE__*/function (_Component) {
         onClick: this.endSession
       }, "End Session"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "p-2 chat-screen border rounded bg-light",
-        style: this.props._exl == "al_1_g" ? {
-          minHeight: '305px',
-          maxHeight: '305px'
-        } : {
+        style: {
           minHeight: '269px',
           maxHeight: '269px'
         }
@@ -86861,17 +87021,27 @@ var chatscreen = /*#__PURE__*/function (_Component) {
         if (item.who === 0) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             key: index,
-            className: "q w-50 mb-2 bg-white border shadow-sm rounded p-2"
-          }, item.message);
+            className: "q w-75 mb-2 bg-white border shadow-sm rounded p-2"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
+            className: "text-muted"
+          }, "Agent: "), item.message);
         } else {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             key: index,
-            className: "q w-50 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
+            className: "q w-75 ml-auto mb-2 bg-success text-white border shadow-sm rounded p-2"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("b", {
-            className: "text-muted"
+            className: "text-light"
           }, "You: "), item.message);
         }
-      }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          "float": "left",
+          clear: "both"
+        },
+        ref: function ref(el) {
+          _this6.messagesEnd = el;
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         className: "form",
         onSubmit: this.onSubmitHandler
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {

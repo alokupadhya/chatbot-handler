@@ -67,7 +67,7 @@ class VisitedUsersController extends Controller
                         $assigned_agent = $agent->random(1)->first();
                         $nus = ChatboxUsers::create($new_visited_user);
                         $date = (new \DateTime('now'))->format('Y-m-d H:i:s');
-			            $expire_at = date('Y-m-d H:i:s', strtotime('+59 minutes', strtotime($date)));
+			            $expire_at = date('Y-m-d H:i:s', strtotime('+1 minutes', strtotime($date)));
                         $_token = uniqid().time();
                         $data = [
                             'user_id'=>$assigned_agent->id,

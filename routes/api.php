@@ -30,6 +30,10 @@ Route::middleware('auth:api')->namespace('API\Handler\User')->group(function () 
     Route::post('/update-password', 'AuthController@updatePassword')->name('update-password');
 });
 
+Route::middleware('auth:api')->namespace('API\Handler')->group(function () {
+    Route::get('/chat-counts', 'ChatController@showChatCounts')->name('chat_counts');
+});
+
 Route::namespace('API\Chatbox')->group(function () {
     Route::prefix('vu')->group(function () {
         Route::post('store', 'VisitedUsersController@store')->name('add_new_visited_user');
@@ -90,9 +94,16 @@ Route::middleware(['auth:api','isAgent'])->group(function () {
 
 Route::middleware(['auth:api','isAgent'])->namespace('API\Handler\Bot')->group(function () {
     Route::prefix('agent/chat')->group(function () {
+        Route::get('/chat-counts', 'ChatController@showAgentChatCount')->name('chat_counts');
         Route::post('store', 'ChatHandlerController@store')->name('store_chat');
         Route::post('get-chats', 'ChatHandlerController@show')->name('get_chats');
         Route::post('end-session', 'ChatHandlerController@endSession')->name('end_session');
+    });
+});
+
+Route::middleware(['auth:api','isAgent'])->namespace('API\Handler')->group(function () {
+    Route::prefix('agent/chat')->group(function () {
+        Route::get('/chat-counts', 'ChatController@showAgentChatCount')->name('chat_counts');
     });
 });
 
